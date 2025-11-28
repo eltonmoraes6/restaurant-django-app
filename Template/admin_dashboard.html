@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<section class="layout_padding">
+    <div class="container">
+        <h2>Admin Dashboard</h2>
+
+        <div class="row mt-4">
+
+            <div class="col-md-3">
+                <div class="card p-3 text-center">
+                    <h4>Total Users</h4>
+                    <h2>{{ total_users }}</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3 text-center">
+                    <h4>Total Orders</h4>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3 text-center">
+                    <h4>Total Revenue</h4>
+                    <h2>${{ total_revenue }}</h2>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card p-3 text-center">
+                    <h4>Pending Orders</h4>
+                    <h2>{{ pending_orders }}</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <h3>Last 10 Orders</h3>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in last_orders %}
+                <tr>
+                    <td>{{ o.id }}</td>
+                    <td>{{ o.user.username }}</td>
+                    <td>${{ o.total }}</td>
+                    <td>
+                        <span class="badge badge-{{ o.is_paid|yesno:'success-danger' }}">
+                            {{ o.is_paid|yesno:"Paid,Pending" }}
+                        </span>
+                    </td>
+                    <td>{{ o.created_at|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+{% endblock %}

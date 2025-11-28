@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% load cart_extras %}
+{% block class %}class="sub_page"{% endblock class %}
+{% block main %}
+
+<section class="layout_padding">
+    <div class="container">
+
+        <h2>Checkout</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cart_items %}
+                <tr>
+                    <td>{{ c.item.Item_name }}</td>
+                    <td>{{ c.quantity }}</td>
+                    <td>${{ c.item.Price }}</td>
+                    <td>${{ c.quantity|multiply:c.item.Price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Total: ${{ total }}</h3>
+
+        <a href="{% url 'FakePayment' %}" class="btn btn-primary">
+            Continue to Payment
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

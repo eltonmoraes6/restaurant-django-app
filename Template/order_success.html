@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% load cart_extras %}
+{% block class %}class="sub_page"{% endblock class %}
+{% block main %}
+
+<section class="layout_padding">
+    <div class="container">
+
+        <h2>Order Successful 🎉</h2>
+        <h4>Order #{{ order.id }}</h4>
+        <p>Placed on: {{ order.created_at }}</p>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in items %}
+                <tr>
+                    <td>{{ i.item.Item_name }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>${{ i.price }}</td>
+                    <td>${{ i.quantity|multiply:i.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Total Paid: ${{ order.total_price }}</h3>
+
+        <a href="{% url 'Home' %}" class="btn btn-success">Return Home</a>
+
+    </div>
+</section>
+
+{% endblock %}

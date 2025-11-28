@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% load cart_extras %}
+{% load static %}
+{% block class %}class="sub_page"{% endblock class %}
+{% block main %}
+
+<section class="layout_padding">
+    <div class="container">
+        <h2>Your Cart</h2>
+
+        {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cart_items %}
+                <tr>
+                    <td>{{ c.item.Item_name }}</td>
+                    <td>${{ c.item.Price }}</td>
+                    <td>{{ c.quantity }}</td>
+                    <td>${{ c.quantity|multiply:c.item.Price }}</td>
+                    <td>
+                        <a href="{% url 'RemoveCart' c.id %}" class="btn btn-danger btn-sm">
+                            Remove
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Total: ${{ total }}</h3>
+
+        <a href="{% url 'Checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+
+        {% else %}
+        <h4>Your cart is empty.</h4>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
