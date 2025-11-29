@@ -173,8 +173,10 @@
             </div>
 
             <button id="cart-button" class="btn btn-primary ml-3">
-              <i class="fa fa-shopping-cart"></i> Cart
+              <i class="fa fa-shopping-cart"></i>
+              Cart <span id="cart-count" class="badge badge-dark">{{ cart_count }}</span>
             </button>
+
 
             {% else %}
             <a href="{% url 'login' %}" class="btn order_online">Login</a>

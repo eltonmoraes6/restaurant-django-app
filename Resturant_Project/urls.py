@@ -8,7 +8,8 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             FakePaymentView, FeedbackView, HomeView, LoginView,
                             LogoutView, MenuView, MyOrdersView,
                             OrderSuccessView, RemoveCartItem, SignupView,
-                            UserProfileView, add_to_cart, get_cart_items)
+                            UserProfileView, add_to_cart, decrease_quantity,
+                            get_cart_items, increase_quantity)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,6 +41,9 @@ urlpatterns = [
     path('profile/', UserProfileView, name='user_profile'),
     path('my-orders/', MyOrdersView, name='my_orders'),
     path('admin-dashboard/', AdminDashboardView, name='admin_dashboard'),
+
+    path("increase/<int:cart_id>/", increase_quantity, name="increase_quantity"),
+    path("decrease/<int:cart_id>/", decrease_quantity, name="decrease_quantity"),
 
 ]
 

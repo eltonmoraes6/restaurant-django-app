@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>manual.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%8D%BD%EF%B8%8F-restaurant-web-application-%E2%80%93-complete-user--developer-manual">🍽️ <strong>Restaurant Web Application – Complete User &amp; Developer Manual</strong></h1>
+<p><strong>Version:</strong> 1.0.0
+<strong>Framework:</strong> Django 5.2
+<strong>Audience:</strong> End Users, Administrators, Developers
+<strong>Author:</strong> Elton Moraes</p>
+<hr>
+<h1 id="%F0%9F%93%9A-table-of-contents">📚 <strong>Table of Contents</strong></h1>
+<ol>
+<li>
+<p><a href="#-1-introduction">Introduction</a></p>
+</li>
+<li>
+<p><a href="#-2-understanding-the-application-structure">Application Structure</a></p>
+</li>
+<li>
+<p><a href="#-3-using-the-application-user-guide">User Guide</a></p>
+<ul>
+<li>Home Page</li>
+<li>Menu</li>
+<li>Cart</li>
+<li>Checkout</li>
+<li>Orders</li>
+<li>Profile</li>
+<li>Feedback</li>
+<li>Booking Tables</li>
+</ul>
+</li>
+<li>
+<p><a href="#-4-admin-guide">Admin Guide</a></p>
+</li>
+<li>
+<p><a href="#-5-developer-guide-full">Developer Guide</a></p>
+<ul>
+<li>Installation</li>
+<li>Project Structure</li>
+<li>Models</li>
+<li>Routing</li>
+<li>APIs</li>
+<li>Debugging</li>
+<li>Deployment</li>
+</ul>
+</li>
+<li>
+<p><a href="#-6-tips-for-adding-images-later">Adding Images</a></p>
+</li>
+<li>
+<p><a href="#-manual-complete">Conclusion</a></p>
+</li>
+</ol>
+<hr>
+<h1 id="%E2%AD%90-1-introduction">⭐ <strong>1. Introduction</strong></h1>
+<p>The Restaurant Web Application is a full-featured Django system designed for:</p>
+<p>🍔 Displaying restaurant menu items
+🛒 Adding items to a cart
+💳 Online ordering
+📦 Order tracking
+👤 User profile management
+🛠 Admin dashboard for restaurant management
+📅 Table booking
+⭐ Customer feedback system</p>
+<p>This document explains <strong>how to use the application</strong> as a customer and <strong>how to manage it as an administrator</strong>, followed by a <strong>complete developer guide</strong>.</p>
+<hr>
+<h1 id="%E2%AD%90-2-understanding-the-application-structure">⭐ <strong>2. Understanding the Application Structure</strong></h1>
+<p>The system has three access levels:</p>
+<hr>
+<h2 id="%F0%9F%94%93-public-pages">🔓 Public Pages</h2>
+<p>Accessible without login:</p>
+<ul>
+<li>Home</li>
+<li>Menu</li>
+<li>About</li>
+<li>Feedback</li>
+<li>Book Table</li>
+<li>Contact</li>
+<li>Login &amp; Register</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%90-authenticated-user-pages">🔐 Authenticated User Pages</h2>
+<p>Require account login:</p>
+<ul>
+<li>Cart</li>
+<li>Checkout</li>
+<li>My Orders</li>
+<li>User Profile</li>
+<li>Logout</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%9B%A0-admin-pages-staff-only">🛠 Admin Pages (staff only)</h2>
+<p>Require:</p>
+<pre class="hljs"><code><div>user.is_staff = <span class="hljs-literal">True</span>
+</div></code></pre>
+<p>Includes:</p>
+<ul>
+<li>Admin Dashboard</li>
+<li>Manage Orders</li>
+<li>Manage Menu Items</li>
+<li>Manage Users</li>
+<li>Manage Table Bookings</li>
+<li>Manage Feedback</li>
+</ul>
+<hr>
+<h1 id="%E2%AD%90-3-using-the-application-user-guide">⭐ <strong>3. Using the Application (User Guide)</strong></h1>
+<p>Below are step-by-step instructions for <strong>every screen</strong> the customer interacts with.</p>
+<hr>
+<h2 id="%F0%9F%93%8D-31-home-page">📍 3.1 <strong>Home Page</strong></h2>
+<p>Displayed when entering the site.</p>
+<p>Includes:</p>
+<ul>
+<li>Large welcoming hero banner</li>
+<li>Restaurant highlights</li>
+<li>Featured dishes</li>
+<li>Testimonials</li>
+<li>Links to booking and ordering</li>
+</ul>
+<p><img src="images/menu.png" alt="Menu Page"></p>
+<pre class="hljs"><code><div>
+---
+
+## 📍 3.2 **Navigation Menu**
+
+Top navigation bar shows:
+
+| Button         | Description                         |
+| -------------- | ----------------------------------- |
+| Home           | Main landing page                   |
+| Menu           | Shows all dishes                    |
+| About          | About the restaurant                |
+| Book Table     | Reservation page                    |
+| Feedback       | Leave review                        |
+| Login/Register | Authentication                      |
+| Cart           | Opens user shopping cart            |
+| User Dropdown  | Profile, My Orders, Admin Dashboard |
+
+</div></code></pre>
+<p><img src="images/menu-3.png" alt="navigation_menu"></p>
+<pre class="hljs"><code><div>
+---
+
+## 🍔 3.3 **Menu Page – Browsing Items**
+
+Shows food items with:
+
+- Photo
+- Title
+- Description
+- Price
+- Add to Cart button
+
+User actions:
+
+1. Scroll through categories
+2. Click **Add to Cart**
+3. Confirmation message appears
+
+</div></code></pre>
+<p>[IMAGE: menu_page]</p>
+<pre class="hljs"><code><div>
+---
+
+# 🛒 3.4 **Shopping Cart Page**
+
+Displays a list of all items the user added.
+
+### Includes:
+
+- Item name
+- Price
+- Quantity (modify using + / – buttons)
+- Total per item
+- Remove button
+- Grand total
+- Checkout button
+
+</div></code></pre>
+<p><img src="images/cart.png" alt="cart_page"></p>
+<pre class="hljs"><code><div>
+### Actions:
+
+- ➕ Increase quantity
+- ➖ Decrease quantity
+- ❌ Remove item
+- ✔ Proceed to Checkout
+
+---
+
+# 💳 3.5 **Checkout Page**
+
+Summarizes the order:
+
+- Items
+- Quantities
+- Prices
+- Grand Total
+- Place Order button
+
+On clicking **Place Order**:
+
+- Order object is created
+- OrderItem objects are created
+- Cart automatically clears
+- User sees **Order Summary**
+
+</div></code></pre>
+<p><img src="images/checkout.png" alt="checkout_page"></p>
+<pre class="hljs"><code><div>
+---
+
+# 📦 3.6 **Order Summary Page**
+
+Shows:
+
+- Order number
+- Date
+- Payment status
+- All items purchased
+- Total price
+
+</div></code></pre>
+<p><img src="images/order_summary.png" alt="order_summary"></p>
+<pre class="hljs"><code><div>
+---
+
+# 📑 3.7 **My Orders Page**
+
+History of all orders the user has made.
+
+Each entry contains:
+
+- Order ID
+- Total amount
+- Date
+- Payment status
+- View Details button
+
+</div></code></pre>
+<p><img src="images/my_orders_page.png" alt="my_orders_page"></p>
+<pre class="hljs"><code><div>
+---
+
+# 👤 3.8 **User Profile Page**
+
+Shows:
+
+- Username
+- Email
+- Join date
+- Total orders
+
+</div></code></pre>
+<p><img src="images/profile.png" alt="profile_page"></p>
+<pre class="hljs"><code><div>
+Future features can include editable fields such as phone, address, avatar, etc.
+
+---
+
+# ⭐ 3.9 **Feedback Page**
+
+Form includes:
+
+- Name
+- Rating
+- Message
+- Optional Photo
+
+Appears on the home page carousel.
+
+</div></code></pre>
+<p><img src="images/feedback_form.png" alt="feedback_form"></p>
+<pre class="hljs"><code><div>
+---
+
+# 🍽 3.10 **Table Booking Page**
+
+Reservation form with:
+
+- Name
+- Phone
+- Email
+- Number of people
+- Date
+
+</div></code></pre>
+<p><img src="images/table_booking.png" alt="table_booking"></p>
+<pre class="hljs"><code><div>
+Bookings are automatically saved for admin review.
+
+---
+
+# ⭐ **4. Admin Guide**
+
+Accessible only for staff users.
+
+---
+
+## 🛠 4.1 **Admin Dashboard**
+
+Central management panel showing:
+
+- Total Users
+- Total Orders
+- Total Menu Items
+- Total Reservations
+- Total Feedback
+
+</div></code></pre>
+<p><img src="images/admin_dashboard.png" alt="admin_dashboard"></p>
+<pre class="hljs"><code><div>
+---
+
+## 🍔 4.2 **Manage Menu Items**
+
+Admin can:
+
+- Add new items
+- Upload images
+- Edit items
+- Delete items
+- Add categories
+
+</div></code></pre>
+<p>[IMAGE: admin_menu_crud]</p>
+<pre class="hljs"><code><div>
+---
+
+## 🧾 4.3 **Manage Orders**
+
+Admin sees:
+
+- Order ID
+- Customer
+- Total
+- All items
+- Payment status
+
+Admin may update status such as completed, pending, refunded (optional).
+
+---
+
+## 🍽 4.4 **Manage Table Bookings**
+
+Admin can see all bookings and change status if needed.
+
+---
+
+# ⭐ **5. Developer Guide (FULL)**
+
+This section merges the complete README and expands it into a professional development manual.
+
+---
+
+## 🛠 5.1 Installation Steps
+
+### Clone the repository:
+
+```bash
+git clone https://github.com/eltonmoraes6/restaurant-django-app.git
+cd restaurant-django-app
+</div></code></pre>
+<hr>
+<h3 id="create-virtual-environment">Create Virtual Environment</h3>
+<pre class="hljs"><code><div>python -m venv venv
+venv\Scripts\activate   <span class="hljs-comment"># Windows</span>
+<span class="hljs-built_in">source</span> venv/bin/activate <span class="hljs-comment"># macOS/Linux</span>
+</div></code></pre>
+<hr>
+<h3 id="install-dependencies">Install Dependencies</h3>
+<pre class="hljs"><code><div>pip install -r requirements.txt
+</div></code></pre>
+<hr>
+<h3 id="run-migrations">Run Migrations</h3>
+<pre class="hljs"><code><div>python manage.py makemigrations
+python manage.py migrate
+</div></code></pre>
+<hr>
+<h3 id="create-superuser">Create Superuser</h3>
+<pre class="hljs"><code><div>python manage.py createsuperuser
+</div></code></pre>
+<p><strong>OR auto-create:</strong></p>
+<pre class="hljs"><code><div>python manage.py shell &lt; create_admin.py
+</div></code></pre>
+<hr>
+<h3 id="start-server">Start Server</h3>
+<pre class="hljs"><code><div>python manage.py runserver
+</div></code></pre>
+<p>App:
+👉 <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>
+Admin:
+👉 <a href="http://127.0.0.1:8000/admin/">http://127.0.0.1:8000/admin/</a></p>
+<hr>
+<h2 id="%F0%9F%A7%B1-52-project-structure">🧱 5.2 Project Structure</h2>
+<pre class="hljs"><code><div>restaurant-django-app/
+│
+├── Base_App/
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── templates/
+│   ├── static/
+│   ├── forms.py
+│
+├── Resturant_Project/
+│   ├── settings.py
+│   ├── urls.py
+│
+├── media/
+├── static/
+├── requirements.txt
+└── README.md
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%A7%A9-53-models-summary">🧩 5.3 Models Summary</h2>
+<ul>
+<li><strong>Items</strong> – menu dishes</li>
+<li><strong>Cart</strong> – temporary storage before checkout</li>
+<li><strong>Order + OrderItem</strong> – persistent purchase history</li>
+<li><strong>BookTable</strong> – reservations</li>
+<li><strong>Feedback</strong> – customer testimonials</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%A7%AD-54-routing-overview">🧭 5.4 Routing Overview</h2>
+<h3 id="cart-operations">Cart Operations</h3>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>View</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/add-to-cart/</code></td>
+<td>add_to_cart</td>
+</tr>
+<tr>
+<td><code>/cart/</code></td>
+<td>Cart_Page</td>
+</tr>
+<tr>
+<td><code>/increase/&lt;id&gt;/</code></td>
+<td>increase_quantity</td>
+</tr>
+<tr>
+<td><code>/decrease/&lt;id&gt;/</code></td>
+<td>decrease_quantity</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%8C%90-55-api-behavior">🌐 5.5 API Behavior</h2>
+<h3 id="example-cart-add-response">Example Cart Add Response</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Item added successfully"</span>,
+  <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1</span>
+}
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%A7%AA-56-running-tests">🧪 5.6 Running Tests</h2>
+<pre class="hljs"><code><div>python manage.py <span class="hljs-built_in">test</span>
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%90%9E-57-debugging-tips">🐞 5.7 Debugging Tips</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NoReverseMatch</td>
+<td>URL name incorrect</td>
+</tr>
+<tr>
+<td>ImportError</td>
+<td>Wrong import path</td>
+</tr>
+<tr>
+<td>TemplateDoesNotExist</td>
+<td>Template directory misconfigured</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%9A%80-58-deployment-guide">🚀 5.8 Deployment Guide</h2>
+<p>Install for production:</p>
+<pre class="hljs"><code><div>pip install gunicorn whitenoise
+</div></code></pre>
+<p>Add to middleware:</p>
+<pre class="hljs"><code><div><span class="hljs-string">"whitenoise.middleware.WhiteNoiseMiddleware"</span>,
+</div></code></pre>
+<p>Run:</p>
+<pre class="hljs"><code><div>gunicorn Resturant_Project.wsgi
+</div></code></pre>
+<hr>
+<h1 id="%E2%AD%90-6-tips-for-adding-images-later">⭐ <strong>6. Tips for Adding Images Later</strong></h1>
+<p>Wherever you see:</p>
+<pre class="hljs"><code><div>[IMAGE: menu_page]docs/images/menu.png
+</div></code></pre>
+<p>You can insert:</p>
+<pre class="hljs"><code><div>![<span class="hljs-string">Menu Page</span>](<span class="hljs-link">images/menu.png</span>)
+</div></code></pre>
+<p><img src="images/menu.png" alt="Menu Page">
+I can also generate an <code>/images/</code> folder structure.</p>
+<hr>
+
+</body>
+</html>

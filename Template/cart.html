@@ -25,7 +25,14 @@
                 <tr>
                     <td>{{ c.item.Item_name }}</td>
                     <td>${{ c.item.Price }}</td>
-                    <td>{{ c.quantity }}</td>
+                    <td>
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <a href="{% url 'decrease_quantity' c.id %}" class="btn btn-warning btn-sm">−</a>
+                            <span>{{ c.quantity }}</span>
+                            <a href="{% url 'increase_quantity' c.id %}" class="btn btn-primary btn-sm">+</a>
+                        </div>
+                    </td>
+
                     <td>${{ c.quantity|multiply:c.item.Price }}</td>
                     <td>
                         <a href="{% url 'RemoveCart' c.id %}" class="btn btn-danger btn-sm">

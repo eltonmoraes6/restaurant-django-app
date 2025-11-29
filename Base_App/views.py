@@ -8,35 +8,44 @@ from django.contrib.auth.views import LoginView as AuthLoginView
 from django.core.mail import send_mail
 from django.db.models import Sum
 from django.http import JsonResponse
+# Base_App/views.py
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 
 from Base_App.models import (AboutUs, BookTable, Cart, Feedback, ItemList,
                              Items, Order, OrderItem, User)
 
+from .models import Cart, Items, Order, OrderItem
+
 # -------------------------------
 # CART SYSTEM (SESSION + DB FIX)
 # -------------------------------
 
+
 def add_to_cart(request):
-    if request.method == 'POST' and request.user.is_authenticated:
-        item_id = request.POST.get('item_id')
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return JsonResponse({"message": "Please log in to add items to cart."}, status=403)
+
+        item_id = request.POST.get("item_id")
         item = get_object_or_404(Items, id=item_id)
 
         cart_item, created = Cart.objects.get_or_create(
             user=request.user,
-            item=item
+            item=item,
         )
 
-        if not created:
-            cart_item.quantity += 1
-        
+        # If new: quantity should start at 1
+        if created:
+            cart_item.quantity = 1
+        else:
+            cart_item.quantity += 1  # optional: increase quantity on repeated add
+
         cart_item.save()
 
-        return JsonResponse({'message': 'Added to cart'})
-    
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+        return JsonResponse({"message": f"{item.Item_name} added to cart!"})
 
+    return JsonResponse({"message": "Invalid request"}, status=400)
 
 
 
@@ -326,3 +335,22 @@ def AdminDashboardView(request):
         'pending_orders': pending_orders,
         'last_orders': last_orders,
     })
+
+def increase_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect("Cart")
+
+
+def decrease_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        # If quantity would go below 1, remove item from cart
+        cart_item.delete()
+
+    return redirect("Cart")
