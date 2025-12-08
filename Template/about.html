@@ -1,47 +1,44 @@
 {% extends "base.html" %}
 {% block hero %}{% endblock hero %}
 {% load static %}
+{% load cms_tags %}
 {% block class %}class="sub_page"{% endblock class %}
-
 {% block about_status %}active{% endblock about_status %}
 
 {% block main %}
 
 <!-- about section -->
-
 <section class="about_section layout_padding">
-  <div class="container  ">
+  <div class="container">
 
     <div class="row">
-      <div class="col-md-6 ">
+      <div class="col-md-6">
         <div class="img-box">
-          <img src="{% static 'images/about-img.png' %} " alt="">
+          <img src="{% static 'images/about-img.png' %}" alt="About Image">
         </div>
       </div>
+
       <div class="col-md-6">
         <div class="detail-box">
           <div class="heading_container">
             <h2>
-              We Are Feane
+              {% cms 'about' 'title' default='We Are Feane' %}
             </h2>
+            <h4>{% cms 'about' 'subtitle' default="Our Story" %}</h4>
           </div>
-
 
           <div>
             <p>
-              {% for i in data %}
-              {{ i.Description|safe }}
-              {% endfor %}
+              {% cms 'about' 'description' default="We began our journey in 1990..." %}
             </p>
           </div>
-
 
         </div>
       </div>
     </div>
+
   </div>
 </section>
-
 <!-- end about section -->
 
 {% endblock main %}

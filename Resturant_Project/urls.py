@@ -8,11 +8,25 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             FakePaymentView, FeedbackView, HomeView, LoginView,
                             LogoutView, MenuView, MyOrdersView,
                             OrderSuccessView, RemoveCartItem, SignupView,
-                            UserProfileView, add_to_cart, decrease_quantity,
-                            get_cart_items, increase_quantity)
+                            UserProfileView, add_to_cart, cms_create, cms_edit,
+                            cms_list, decrease_quantity, get_cart_items,
+                            increase_quantity, items_create, items_edit,
+                            items_list, order_list)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),  # Django admin
+
+    # CUSTOM ADMIN PANEL
+    path("dashboard/items/", items_list, name="items_list"),
+    path("dashboard/items/add/", items_create, name="item_add"),
+    path("dashboard/items/edit/<int:pk>/", items_edit, name="item_edit"),
+
+    path("dashboard/orders/", order_list, name="order_list"),
+
+    # CMS
+    path("cms/", cms_list, name="cms_list"),
+    path("cms/create/", cms_create, name="cms_create"),
+    path("cms/edit/<int:pk>/", cms_edit, name="cms_edit"),
 
     # Auth
     path('login/', LoginView.as_view(), name='login'),
@@ -38,13 +52,13 @@ urlpatterns = [
     path('payment/', FakePaymentView, name='FakePayment'),
     path('order-success/<int:order_id>/', OrderSuccessView, name='OrderSuccess'),
 
+    # Profile
     path('profile/', UserProfileView, name='user_profile'),
     path('my-orders/', MyOrdersView, name='my_orders'),
     path('admin-dashboard/', AdminDashboardView, name='admin_dashboard'),
 
     path("increase/<int:cart_id>/", increase_quantity, name="increase_quantity"),
     path("decrease/<int:cart_id>/", decrease_quantity, name="decrease_quantity"),
-
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,18 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<h1>Website Content Management</h1>
+<p>Use this panel to edit all website text, images, and product data.</p>
+
+<div class="module">
+    <table class="admin-table">
+        <tbody>
+            {% for title, link in sections %}
+            <tr>
+                <td><a href="{{ link }}">{{ title }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

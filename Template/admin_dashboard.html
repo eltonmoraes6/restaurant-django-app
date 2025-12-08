@@ -6,31 +6,32 @@
     <div class="container">
         <h2>Admin Dashboard</h2>
 
+        <!-- STATISTICS CARDS -->
         <div class="row mt-4">
 
             <div class="col-md-3">
-                <div class="card p-3 text-center">
+                <div class="card p-3 text-center shadow">
                     <h4>Total Users</h4>
                     <h2>{{ total_users }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center">
+                <div class="card p-3 text-center shadow">
                     <h4>Total Orders</h4>
                     <h2>{{ total_orders }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center">
+                <div class="card p-3 text-center shadow">
                     <h4>Total Revenue</h4>
                     <h2>${{ total_revenue }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center">
+                <div class="card p-3 text-center shadow">
                     <h4>Pending Orders</h4>
                     <h2>{{ pending_orders }}</h2>
                 </div>
@@ -40,33 +41,88 @@
 
         <hr class="my-4">
 
+        <!-- QUICK ADMIN CONTROLS -->
+        <h3 class="mb-3">Admin Tools</h3>
+
+        <div class="row mb-4">
+
+            <!-- CMS MANAGEMENT -->
+            <div class="col-md-3">
+                <a href="{% url 'cms_list' %}" class="text-decoration-none">
+                    <div class="card p-3 text-center bg-info text-white shadow-sm">
+                        <h4>📝 CMS Content</h4>
+                        <p>Edit dynamic page text</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PRODUCT MANAGEMENT -->
+            <div class="col-md-3">
+                <a href="{% url 'items_list' %}" class="text-decoration-none">
+                    <div class="card p-3 text-center bg-warning text-dark shadow-sm">
+                        <h4>🍔 Manage Products</h4>
+                        <p>View and edit menu items</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ADD NEW PRODUCT -->
+            <div class="col-md-3">
+                <a href="{% url 'item_add' %}" class="text-decoration-none">
+                    <div class="card p-3 text-center bg-success text-white shadow-sm">
+                        <h4>➕ Add Product</h4>
+                        <p>Create new menu item</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ORDERS MANAGEMENT -->
+            <div class="col-md-3">
+                <a href="{% url 'order_list' %}" class="text-decoration-none">
+                    <div class="card p-3 text-center bg-primary text-white shadow-sm">
+                        <h4>📦 Manage Orders</h4>
+                        <p>View customer orders</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <hr class="my-4">
+
+        <!-- LAST ORDERS TABLE -->
         <h3>Last 10 Orders</h3>
-        <table class="table table-striped mt-3">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for o in last_orders %}
-                <tr>
-                    <td>{{ o.id }}</td>
-                    <td>{{ o.user.username }}</td>
-                    <td>${{ o.total }}</td>
-                    <td>
-                        <span class="badge badge-{{ o.is_paid|yesno:'success-danger' }}">
-                            {{ o.is_paid|yesno:"Paid,Pending" }}
-                        </span>
-                    </td>
-                    <td>{{ o.created_at|date:"d/m/Y H:i" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <div class="table-responsive">
+            <table class="table table-striped mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for o in last_orders %}
+                    <tr>
+                        <td>{{ o.id }}</td>
+                        <td>{{ o.user.username }}</td>
+                        <td>${{ o.total }}</td>
+                        <td>
+                            <span class="badge badge-{{ o.is_paid|yesno:'success-danger' }}">
+                                {{ o.is_paid|yesno:"Paid,Pending" }}
+                            </span>
+                        </td>
+                        <td>{{ o.created_at|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
 
     </div>
 </section>

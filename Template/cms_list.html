@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<div class="container layout_padding">
+    <h2>CMS Content Management</h2>
+
+    <a href="{% url 'cms_create' %}" class="btn btn-success my-3">➕ Add New Section</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Page</th>
+                <th>Section</th>
+                <th>Title</th>
+                <th>Updated</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in content %}
+            <tr>
+                <td>{{ item.page }}</td>
+                <td>{{ item.section }}</td>
+                <td>{{ item.title|default:"(no title)" }}</td>
+                <td>{{ item.updated_at|date:"d/m/Y H:i" }}</td>
+                <td>
+                    <a href="{% url 'cms_edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

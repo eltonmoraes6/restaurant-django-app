@@ -1,0 +1,14 @@
+{% load cms_tags %}
+
+<footer class="footer_section">
+    <div class="container">
+        <p>
+            {% cms 'footer' 'contact_text' default='Contact us anytime.' %}
+        </p>
+
+        <p>
+            {% cms 'footer' 'copyright'
+            default='© 2025 Burgger Restaurant. All rights reserved.' %}
+        </p>
+    </div>
+</footer>

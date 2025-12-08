@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Base_App',
+    # 'Base_App',
+    'Base_App.apps.BaseAppConfig',
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -76,6 +77,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'Base_App.context_processors.cart_item_count',
+                'Base_App.context_processors.cms_processor',
+
             ],
         },
     },

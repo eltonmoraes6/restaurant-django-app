@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block home_status %}active{% endblock home_status %}
+{% block main %}
+
+<div class="container mt-4">
+    <h2>CMS Content Manager</h2>
+
+    <a href="{% url 'cms_create' %}" class="btn btn-primary mb-3">Add Section</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Page</th>
+                <th>Section</th>
+                <th>Title</th>
+                <th>Content (preview)</th>
+                <th>Image</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for s in sections %}
+            <tr>
+                <td>{{ s.get_page_display }}</td>
+                <td>{{ s.section }}</td>
+                <td>{{ s.title }}</td>
+                <td>{{ s.content|truncatechars:50 }}</td>
+                <td>
+                    {% if s.image %}
+                    <img src="{{ s.image.url }}" style="height:50px;">
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'cms_edit' s.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

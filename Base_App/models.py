@@ -79,3 +79,38 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.item.Item_name} ({self.quantity})"
+
+class CMSContent(models.Model):
+    page = models.CharField(max_length=50)      # ex: home, about, footer
+    key = models.CharField(max_length=50)       # ex: hero_title, about_text
+    value = models.TextField()                  # editable text
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('page', 'key')
+
+    def __str__(self):
+        return f"{self.page} - {self.key}"
+
+class PageSection(models.Model):
+    PAGE_CHOICES = [
+        ('home', 'Home Page'),
+        ('about', 'About Page'),
+        ('menu', 'Menu Page'),
+        ('footer', 'Footer'),
+        ('contact', 'Contact Info'),
+    ]
+
+    page = models.CharField(max_length=50, choices=PAGE_CHOICES)
+    section = models.CharField(max_length=100)  # example: 'hero_title'
+    title = models.CharField(max_length=200, blank=True)
+    content = models.TextField(blank=True)
+    image = models.ImageField(upload_to="cms/", blank=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('page', 'section')
+
+    def __str__(self):
+        return f"{self.page} - {self.section}"

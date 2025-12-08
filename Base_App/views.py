@@ -2,20 +2,19 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView as AuthLoginView
 from django.core.mail import send_mail
 from django.db.models import Sum
 from django.http import JsonResponse
-# Base_App/views.py
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 
 from Base_App.models import (AboutUs, BookTable, Cart, Feedback, ItemList,
-                             Items, Order, OrderItem, User)
+                             Items, Order, OrderItem, PageSection, User)
 
-from .models import Cart, Items, Order, OrderItem
+from .forms import ItemsForm, PageSectionForm
 
 # -------------------------------
 # CART SYSTEM (SESSION + DB FIX)
@@ -354,3 +353,76 @@ def decrease_quantity(request, cart_id):
         cart_item.delete()
 
     return redirect("Cart")
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def cms_list(request):
+    content = PageSection.objects.all().order_by("page", "section")
+    return render(request, "cms_list.html", {"content": content})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def cms_create(request):
+    if request.method == "POST":
+        form = PageSectionForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("cms_list")
+    else:
+        form = PageSectionForm()
+    return render(request, "cms_form.html", {"form": form, "title": "Create New CMS Section"})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def cms_edit(request, pk):
+    section = get_object_or_404(PageSection, pk=pk)
+    if request.method == "POST":
+        form = PageSectionForm(request.POST, request.FILES, instance=section)
+        if form.is_valid():
+            form.save()
+            return redirect("cms_list")
+    else:
+        form = PageSectionForm(instance=section)
+    return render(request, "cms_form.html", {"form": form, "title": "Edit CMS Section"})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def items_list(request):
+    items = Items.objects.all().order_by("-id")
+    return render(request, "items_list.html", {"items": items})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def items_create(request):
+    if request.method == "POST":
+        form = ItemsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("items_list")
+    else:
+        form = ItemsForm()
+
+    return render(request, "items_form.html", {"form": form, "title": "Add Product"})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def items_edit(request, pk):
+    item = get_object_or_404(Items, pk=pk)
+
+    if request.method == "POST":
+        form = ItemsForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect("items_list")
+    else:
+        form = ItemsForm(instance=item)
+
+    return render(request, "items_form.html", {"form": form, "title": "Edit Product"})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def order_list(request):
+    orders = Order.objects.all().order_by("-created_at")
+    return render(request, "order_list.html", {"orders": orders})
