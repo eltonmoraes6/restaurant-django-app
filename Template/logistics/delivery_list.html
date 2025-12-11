@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<div class="container mt-4">
+    <h2>Gerenciamento de Entregas</h2>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Pedido</th>
+                <th>Cliente</th>
+                <th>Status</th>
+                <th>Entregador</th>
+                <th>Atualizado</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for d in deliveries %}
+            <tr>
+                <td>#{{ d.order.id }}</td>
+                <td>{{ d.order.user.username }}</td>
+                <td>{{ d.get_status_display }}</td>
+                <td>
+                    {% if d.delivery_person %}
+                    {{ d.delivery_person.name }}
+                    {% else %}
+                    <span class="text-muted">Não atribuído</span>
+                    {% endif %}
+                </td>
+                <td>{{ d.updated_at|date:"d/m/Y H:i" }}</td>
+
+                <td>
+                    <a href="{% url 'delivery_detail' d.order.id %}" class="btn btn-primary btn-sm">
+                        Gerenciar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

@@ -3,17 +3,17 @@
 {% block main %}
 
 <div class="container mt-4">
-    <h2>Orders Management</h2>
+    <h2>Gerenciamento de Pedidos</h2>
 
     <div class="table-responsive mt-3">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>User</th>
+                    <th>Usuário</th>
                     <th>Total</th>
                     <th>Status</th>
-                    <th>Date</th>
+                    <th>Data</th>
                 </tr>
             </thead>
 
@@ -22,8 +22,8 @@
                 <tr>
                     <td>{{ o.id }}</td>
                     <td>{{ o.user.username }}</td>
-                    <td>${{ o.total }}</td>
-                    <td>{{ o.is_paid|yesno:"Paid,Pending" }}</td>
+                    <td>R${{ o.total }}</td>
+                    <td>{{ o.is_paid|yesno:"Pago,Pendente" }}</td>
                     <td>{{ o.created_at|date:"d/m/Y H:i" }}</td>
                 </tr>
                 {% endfor %}

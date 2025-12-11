@@ -4,31 +4,42 @@
 
 <section class="layout_padding">
     <div class="container">
-        <h2>My Profile</h2>
+        <h2>Meu Perfil</h2>
 
         <div class="card p-4 mt-4">
-            <h4>User Info</h4>
-            <p><strong>Username:</strong> {{ user.username }}</p>
+            <h4>Informações do Usuário</h4>
+            <p><strong>Usuário:</strong> {{ user.username }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Joined:</strong> {{ user.date_joined|date:"d M Y" }}</p>
+            <p><strong>Cadastrado em:</strong> {{ user.date_joined|date:"d/m/Y" }}</p>
 
             <hr>
 
-            <h4>Recent Orders</h4>
+            <h4>Pedidos Recentes</h4>
 
             {% if orders %}
             <ul class="list-group">
                 {% for o in orders %}
                 <li class="list-group-item">
-                    Order #{{ o.id }} — ${{ o.total }}
-                    <span class="badge badge-{{ o.is_paid|yesno:'success-danger' }}">
-                        {{ o.is_paid|yesno:"Paid,Pending" }}
+                    Pedido #{{ o.id }} — R$ {{ o.total }}
+
+                    {% if o.delivery %}
+                    <span class="badge badge-info">
+                        Status: {{ o.delivery.get_status_display }}
                     </span>
+
+                    {% if o.delivery.tracking_note %}
+                    <br><small><em>{{ o.delivery.tracking_note }}</em></small>
+                    {% endif %}
+
+                    {% else %}
+                    <span class="badge badge-secondary">Aguardando confirmação</span>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>
+
             {% else %}
-            <p>You haven't made any orders yet.</p>
+            <p>Você ainda não fez nenhum pedido.</p>
             {% endif %}
         </div>
     </div>

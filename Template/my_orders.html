@@ -4,41 +4,46 @@
 
 <section class="layout_padding">
     <div class="container">
-        <h2>My Orders</h2>
+        <h2>Meus Pedidos</h2>
 
         {% if orders %}
         {% for order in orders %}
+
         <div class="card p-3 my-3">
-            <h4>Order #{{ order.id }} — ${{ order.total }}</h4>
-            <p>Date: {{ order.created_at|date:"d M Y - H:i" }}</p>
+            <h4>Pedido #{{ order.id }} — R${{ order.total }}</h4>
+            <p>Data: {{ order.created_at|date:"d/m/Y - H:i" }}</p>
 
             <span class="badge badge-{{ order.is_paid|yesno:'success-danger' }}">
-                {{ order.is_paid|yesno:"Paid,Pending" }}
+                {{ order.is_paid|yesno:"Pago,Pendente" }}
             </span>
 
             <table class="table mt-3">
                 <thead>
                     <tr>
                         <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
+                        <th>Qtd</th>
+                        <th>Preço</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {% for item in order.items.all %}
                     <tr>
                         <td>{{ item.item.Item_name }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td>${{ item.price }}</td>
+                        <td>R${{ item.price }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
+
         {% endfor %}
         {% else %}
-        <p>No orders found.</p>
+        <p>Você ainda não fez nenhum pedido.</p>
         {% endif %}
+
     </div>
 </section>
 

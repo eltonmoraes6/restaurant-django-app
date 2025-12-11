@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Signup</title>
+    <title>Login e Cadastro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -62,64 +63,64 @@
 <body>
     <div class="auth-container">
         <div class="auth-tabs">
-            <button id="login-tab" class="active" onclick="switchTab('login')">Login</button>
-            <button id="signup-tab" onclick="switchTab('signup')">Signup</button>
+            <button id="login-tab" class="active" onclick="switchTab('login')">Entrar</button>
+            <button id="signup-tab" onclick="switchTab('signup')">Cadastrar</button>
         </div>
 
-        <!-- Login Form -->
+        <!-- Login -->
         <div id="login-form">
-            <h3 class="text-center">Login</h3>
+            <h3 class="text-center">Entrar</h3>
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Usuário</label>
                     <input type="text" id="username" name="username" class="form-control" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Senha</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+
+                <button type="submit" class="btn btn-primary">Entrar</button>
             </form>
+
             {% if form.errors %}
             <div class="alert alert-danger">
                 {% for error in form.non_field_errors %}
-                    <p>{{ error }}</p>
+                <p>{{ error }}</p>
                 {% endfor %}
             </div>
             {% endif %}
         </div>
 
-        <!-- Signup Form -->
+        <!-- Signup -->
         <div id="signup-form" style="display: none;">
-            <h3 class="text-center">Signup</h3>
+            <h3 class="text-center">Criar Conta</h3>
             <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="new-username">Username</label>
+                    <label for="new-username">Usuário</label>
                     <input type="text" id="new-username" name="username" class="form-control" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">E-mail</label>
                     <input type="email" id="email" name="email" class="form-control" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="new-password">Password</label>
+                    <label for="new-password">Senha</label>
                     <input type="password" id="new-password" name="password1" class="form-control" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
+                    <label for="confirm-password">Confirmar Senha</label>
                     <input type="password" id="confirm-password" name="password2" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Signup</button>
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
-            {% if form.errors %}
-            <div class="alert alert-danger">
-                {% for error in form.non_field_errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-            {% endif %}
         </div>
     </div>
 
@@ -143,6 +144,7 @@
             }
         }
     </script>
+
 </body>
 
 </html>

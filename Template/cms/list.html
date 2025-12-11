@@ -3,18 +3,18 @@
 {% block main %}
 
 <div class="container mt-4">
-    <h2>CMS Content Manager</h2>
+    <h2>Gerenciador de Conteúdo (CMS)</h2>
 
-    <a href="{% url 'cms_create' %}" class="btn btn-primary mb-3">Add Section</a>
+    <a href="{% url 'cms_create' %}" class="btn btn-primary mb-3">Adicionar Seção</a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Page</th>
-                <th>Section</th>
-                <th>Title</th>
-                <th>Content (preview)</th>
-                <th>Image</th>
+                <th>Página</th>
+                <th>Seção</th>
+                <th>Título</th>
+                <th>Conteúdo (prévia)</th>
+                <th>Imagem</th>
                 <th></th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{% url 'cms_edit' s.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'cms_edit' s.pk %}" class="btn btn-warning btn-sm">Editar</a>
                 </td>
             </tr>
             {% endfor %}

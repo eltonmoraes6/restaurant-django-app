@@ -13,8 +13,8 @@
             <thead>
                 <tr>
                     <th>Item</th>
-                    <th>Qty</th>
-                    <th>Price</th>
+                    <th>Qtd</th>
+                    <th>Preço</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -23,17 +23,17 @@
                 <tr>
                     <td>{{ c.item.Item_name }}</td>
                     <td>{{ c.quantity }}</td>
-                    <td>${{ c.item.Price }}</td>
-                    <td>${{ c.quantity|multiply:c.item.Price }}</td>
+                    <td>R${{ c.item.Price }}</td>
+                    <td>R${{ c.quantity|multiply:c.item.Price }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <h3>Total: ${{ total }}</h3>
+        <h3>Total: R${{ total }}</h3>
 
         <a href="{% url 'FakePayment' %}" class="btn btn-primary">
-            Continue to Payment
+            Continuar para Pagamento
         </a>
 
     </div>

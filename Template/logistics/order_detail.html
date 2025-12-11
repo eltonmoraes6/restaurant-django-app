@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<div class="container mt-4">
+    <h2>Pedido #{{ order.id }}</h2>
+
+    <p><strong>Cliente:</strong> {{ order.user.username }}</p>
+    <p><strong>Total:</strong> R$ {{ order.total }}</p>
+    <p><strong>Pagamento:</strong>
+        {% if order.is_paid %}
+        <span class="badge bg-success">Pago</span>
+        {% else %}
+        <span class="badge bg-warning">Pendente</span>
+        {% endif %}
+    </p>
+
+    <hr>
+
+    <h4>Itens do Pedido</h4>
+    <ul class="list-group mb-4">
+        {% for item in order.items.all %}
+        <li class="list-group-item">
+            {{ item.item.Item_name }} — {{ item.quantity }} un — R$ {{ item.get_total }}
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">Nenhum item encontrado.</li>
+        {% endfor %}
+    </ul>
+
+    {% if order.delivery %}
+    <h4>Status da Entrega</h4>
+    <p><strong>Atual:</strong> {{ order.delivery.get_status_display }}</p>
+    <p><strong>Entregador:</strong>
+        {% if order.delivery.delivery_person %}
+        {{ order.delivery.delivery_person.name }} ({{ order.delivery.delivery_person.phone }})
+        {% else %}
+        — Não atribuído —
+        {% endif %}
+    </p>
+
+    <a href="{% url 'delivery_detail' order.id %}" class="btn btn-primary">
+        Gerenciar Entrega
+    </a>
+    {% else %}
+    <p class="text-danger">⚠ Este pedido ainda não possui entrega associada.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

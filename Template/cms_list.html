@@ -3,18 +3,18 @@
 {% block main %}
 
 <div class="container layout_padding">
-    <h2>CMS Content Management</h2>
+    <h2>Gerenciamento de Conteúdo CMS</h2>
 
-    <a href="{% url 'cms_create' %}" class="btn btn-success my-3">➕ Add New Section</a>
+    <a href="{% url 'cms_create' %}" class="btn btn-success my-3">➕ Adicionar Nova Seção</a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Page</th>
-                <th>Section</th>
-                <th>Title</th>
-                <th>Updated</th>
-                <th>Edit</th>
+                <th>Página</th>
+                <th>Seção</th>
+                <th>Título</th>
+                <th>Atualizado</th>
+                <th>Editar</th>
             </tr>
         </thead>
 
@@ -23,10 +23,10 @@
             <tr>
                 <td>{{ item.page }}</td>
                 <td>{{ item.section }}</td>
-                <td>{{ item.title|default:"(no title)" }}</td>
+                <td>{{ item.title|default:"(sem título)" }}</td>
                 <td>{{ item.updated_at|date:"d/m/Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'cms_edit' item.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'cms_edit' item.id %}" class="btn btn-primary btn-sm">Editar</a>
                 </td>
             </tr>
             {% endfor %}

@@ -7,24 +7,24 @@
 
 <section class="layout_padding">
     <div class="container">
-        <h2>Your Cart</h2>
+        <h2>Seu Carrinho</h2>
 
         {% if cart_items %}
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Item</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
                     <th>Total</th>
-                    <th>Action</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
                 {% for c in cart_items %}
                 <tr>
                     <td>{{ c.item.Item_name }}</td>
-                    <td>${{ c.item.Price }}</td>
+                    <td>R${{ c.item.Price }}</td>
                     <td>
                         <div style="display:flex; gap:6px; align-items:center;">
                             <a href="{% url 'decrease_quantity' c.id %}" class="btn btn-warning btn-sm">−</a>
@@ -33,10 +33,10 @@
                         </div>
                     </td>
 
-                    <td>${{ c.quantity|multiply:c.item.Price }}</td>
+                    <td>R${{ c.quantity|multiply:c.item.Price }}</td>
                     <td>
                         <a href="{% url 'RemoveCart' c.id %}" class="btn btn-danger btn-sm">
-                            Remove
+                            Remover
                         </a>
                     </td>
                 </tr>
@@ -44,12 +44,12 @@
             </tbody>
         </table>
 
-        <h3>Total: ${{ total }}</h3>
+        <h3>Total: R${{ total }}</h3>
 
-        <a href="{% url 'Checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+        <a href="{% url 'Checkout' %}" class="btn btn-success">Ir para o Checkout</a>
 
         {% else %}
-        <h4>Your cart is empty.</h4>
+        <h4>Seu carrinho está vazio.</h4>
         {% endif %}
     </div>
 </section>

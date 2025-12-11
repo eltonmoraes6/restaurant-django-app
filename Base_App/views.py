@@ -11,15 +11,15 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 
-from Base_App.models import (AboutUs, BookTable, Cart, Feedback, ItemList,
-                             Items, Order, OrderItem, PageSection, User)
+from Base_App.models import (AboutUs, BookTable, Cart, Delivery,
+                             DeliveryPerson, Feedback, ItemList, Items, Order,
+                             OrderItem, PageSection, User)
 
 from .forms import ItemsForm, PageSectionForm
 
-# -------------------------------
-# CART SYSTEM (SESSION + DB FIX)
-# -------------------------------
-
+# ============================================================
+# CART SYSTEM 
+# ============================================================
 
 def add_to_cart(request):
     if request.method == "POST":
@@ -34,11 +34,10 @@ def add_to_cart(request):
             item=item,
         )
 
-        # If new: quantity should start at 1
         if created:
             cart_item.quantity = 1
         else:
-            cart_item.quantity += 1  # optional: increase quantity on repeated add
+            cart_item.quantity += 1
 
         cart_item.save()
 
@@ -47,9 +46,7 @@ def add_to_cart(request):
     return JsonResponse({"message": "Invalid request"}, status=400)
 
 
-
 def get_cart_items(request):
-    """ Used by Base.html modal popup """
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'User not authenticated'}, status=401)
 
@@ -65,27 +62,26 @@ def get_cart_items(request):
     return JsonResponse({'items': items})
 
 
-# -------------------------------
+# ============================================================
 # LOGIN / LOGOUT / SIGNUP
-# -------------------------------
+# ============================================================
 
 class LoginView(AuthLoginView):
     template_name = 'login.html'
 
     def get_success_url(self):
         if self.request.user.is_staff:
-            return reverse_lazy('admin:index')
+            return reverse_lazy('admin_dashboard')
         return reverse_lazy('Home')
 
 
 def LogoutView(request):
     logout(request)
-    messages.success(request, "You have been logged out successfully.")
+    messages.success(request, "Logged out successfully.")
     return redirect("Home")
 
 
 def SignupView(request):
-    """ Handles signup inside login.html with tab switching """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
 
@@ -95,8 +91,7 @@ def SignupView(request):
             messages.success(request, f"Welcome, {user.username}!")
             return redirect('Home')
 
-        messages.error(request, "Signup error. Please try again.")
-
+        messages.error(request, "Signup error.")
     else:
         form = UserCreationForm()
 
@@ -106,9 +101,9 @@ def SignupView(request):
     })
 
 
-# -------------------------------
-# PAGE VIEWS
-# -------------------------------
+# ============================================================
+# PUBLIC PAGES
+# ============================================================
 
 def HomeView(request):
     return render(request, 'home.html', {
@@ -131,9 +126,9 @@ def MenuView(request):
     })
 
 
-# -------------------------------
+# ============================================================
 # BOOK TABLE
-# -------------------------------
+# ============================================================
 
 def BookTableView(request):
     google_maps_api_key = settings.GOOGLE_MAPS_API_KEY
@@ -145,8 +140,8 @@ def BookTableView(request):
         persons = request.POST.get('total_person')
         date = request.POST.get('booking_data')
 
-        # Simple server-side validation
         if name and phone and email and persons and date:
+
             booking = BookTable(
                 Name=name,
                 Phone_number=phone,
@@ -156,31 +151,24 @@ def BookTableView(request):
             )
             booking.save()
 
-            # Email Notification
             subject = "Booking Confirmation"
-            message = (
-                f"Hello {name},\n\n"
-                f"Your booking has been confirmed!\n"
-                f"Guests: {persons}\n"
-                f"Date: {date}\n\n"
-                f"Thank you for choosing us!"
-            )
+            message = f"Hello {name}, your booking is confirmed."
 
             send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
 
-            messages.success(request, "Booking confirmed! Check your email.")
+            messages.success(request, "Booking confirmed!")
             return redirect('Book_Table')
 
-        messages.error(request, "Please fill all fields correctly.")
+        messages.error(request, "Fill in all fields.")
 
     return render(request, 'book_table.html', {
         'google_maps_api_key': google_maps_api_key
     })
 
 
-# -------------------------------
+# ============================================================
 # FEEDBACK
-# -------------------------------
+# ============================================================
 
 def FeedbackView(request):
     if request.method == 'POST':
@@ -197,11 +185,15 @@ def FeedbackView(request):
                 Image=image
             )
 
-            messages.success(request, "Feedback submitted successfully!")
+            messages.success(request, "Feedback submitted!")
             return redirect('Feedback_Form')
 
     return render(request, 'feedback.html')
 
+
+# ============================================================
+# CART VIEW / ORDER / CHECKOUT
+# ============================================================
 
 def CartPageView(request):
     if not request.user.is_authenticated:
@@ -222,19 +214,6 @@ def RemoveCartItem(request, id):
     return redirect('Cart')
 
 
-def CartPageView(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-
-    cart_items = Cart.objects.filter(user=request.user)
-    total = sum(c.quantity * c.item.Price for c in cart_items)
-
-    return render(request, 'cart.html', {
-        'cart_items': cart_items,
-        'total': total
-    })
-
-
 def ConfirmOrder(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -245,7 +224,11 @@ def ConfirmOrder(request):
 
     total = sum(c.quantity * c.item.Price for c in cart_items)
 
+    # Create order
     order = Order.objects.create(user=request.user, total=total, is_paid=True)
+
+    # Create delivery automatically
+    Delivery.objects.create(order=order, status="pending")
 
     for c in cart_items:
         OrderItem.objects.create(
@@ -270,9 +253,8 @@ def FakePaymentView(request):
 
     total = sum(c.quantity * c.item.Price for c in cart_items)
 
-    return render(request, 'fake_payment.html', {
-        'total': total
-    })
+    return render(request, 'fake_payment.html', {'total': total})
+
 
 def OrderSuccessView(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
@@ -282,6 +264,7 @@ def OrderSuccessView(request, order_id):
         'order': order,
         'items': items
     })
+
 
 def CheckoutPageView(request):
     if not request.user.is_authenticated:
@@ -300,23 +283,29 @@ def CheckoutPageView(request):
     })
 
 
+# ============================================================
+# USER PROFILE
+# ============================================================
+
 @login_required
 def UserProfileView(request):
-    user = request.user
-    orders = Order.objects.filter(user=user).order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).select_related("delivery").order_by('-created_at')
 
     return render(request, 'profile.html', {
-        'user': user,
+        'user': request.user,
         'orders': orders
     })
+
 
 @login_required
 def MyOrdersView(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'my_orders.html', {"orders": orders})
 
-    return render(request, 'my_orders.html', {
-        'orders': orders
-    })
+
+# ============================================================
+# ADMIN DASHBOARD (UPDATED WITH DELIVERIES)
+# ============================================================
 
 @staff_member_required
 def AdminDashboardView(request):
@@ -325,40 +314,32 @@ def AdminDashboardView(request):
     total_orders = Order.objects.count()
     total_revenue = Order.objects.filter(is_paid=True).aggregate(Sum('total'))['total__sum'] or 0
     pending_orders = Order.objects.filter(is_paid=False).count()
-    last_orders = Order.objects.order_by('-created_at')[:10]
+
+    # NEW DELIVERY STATS
+    pending_deliveries = Delivery.objects.filter(status="pending").count()
+
+    last_orders = Order.objects.select_related("delivery").order_by('-created_at')[:10]
 
     return render(request, 'admin_dashboard.html', {
         'total_users': total_users,
         'total_orders': total_orders,
         'total_revenue': total_revenue,
         'pending_orders': pending_orders,
+        'pending_deliveries': pending_deliveries,
         'last_orders': last_orders,
     })
 
-def increase_quantity(request, cart_id):
-    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
-    cart_item.quantity += 1
-    cart_item.save()
-    return redirect("Cart")
 
-
-def decrease_quantity(request, cart_id):
-    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
-
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-        cart_item.save()
-    else:
-        # If quantity would go below 1, remove item from cart
-        cart_item.delete()
-
-    return redirect("Cart")
+# ============================================================
+# CMS
+# ============================================================
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def cms_list(request):
     content = PageSection.objects.all().order_by("page", "section")
     return render(request, "cms_list.html", {"content": content})
+
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -370,12 +351,15 @@ def cms_create(request):
             return redirect("cms_list")
     else:
         form = PageSectionForm()
+
     return render(request, "cms_form.html", {"form": form, "title": "Create New CMS Section"})
+
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def cms_edit(request, pk):
     section = get_object_or_404(PageSection, pk=pk)
+
     if request.method == "POST":
         form = PageSectionForm(request.POST, request.FILES, instance=section)
         if form.is_valid():
@@ -383,7 +367,13 @@ def cms_edit(request, pk):
             return redirect("cms_list")
     else:
         form = PageSectionForm(instance=section)
+
     return render(request, "cms_form.html", {"form": form, "title": "Edit CMS Section"})
+
+
+# ============================================================
+# ITEMS MANAGEMENT
+# ============================================================
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -421,8 +411,215 @@ def items_edit(request, pk):
 
     return render(request, "items_form.html", {"form": form, "title": "Edit Product"})
 
+
+# ============================================================
+# ORDER MANAGEMENT
+# ============================================================
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def order_list(request):
-    orders = Order.objects.all().order_by("-created_at")
+    orders = Order.objects.select_related("delivery").order_by("-created_at")
     return render(request, "order_list.html", {"orders": orders})
+
+
+# ============================================================
+# LOGISTICS SYSTEM
+# ============================================================
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def logistics_dashboard(request):
+    deliveries = Delivery.objects.select_related("order", "delivery_person").order_by("-updated_at")
+
+    return render(request, "logistics/dashboard.html", {
+        "deliveries": deliveries
+    })
+
+
+
+
+def logistics_order_detail(request, pk):
+    delivery = get_object_or_404(Delivery, order_id=pk)
+    delivery_people = DeliveryPerson.objects.all()
+
+    return render(request, "logistics/order_detail.html", {
+        "delivery": delivery,
+        "delivery_people": delivery_people
+    })
+
+
+def update_delivery_status(request, pk):
+    delivery = get_object_or_404(Delivery, order_id=pk)
+
+    if request.method == "POST":
+        delivery.status = request.POST.get("status")
+        delivery.tracking_note = request.POST.get("tracking_note")
+
+        delivery_person_id = request.POST.get("delivery_person")
+        if delivery_person_id:
+            delivery.delivery_person = DeliveryPerson.objects.get(id=delivery_person_id)
+
+        delivery.save()
+
+    return redirect("logistics_order_detail", pk=pk)
+
+
+
+# ============================================================
+# FINAL PROFILE SHORTCUT
+# ============================================================
+
+@login_required
+def my_profile(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+
+    return render(request, "profile.html", {"orders": orders})
+
+def decrease_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+        cart_item.save()
+    else:
+        cart_item.delete()
+
+    return redirect("Cart")
+
+def increase_quantity(request, cart_id):
+    cart_item = get_object_or_404(Cart, id=cart_id, user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect("Cart")
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def logistics_dashboard(request):
+    deliveries = Delivery.objects.select_related("order", "delivery_person").order_by("-updated_at")
+
+    return render(request, "logistics/dashboard.html", {
+        "deliveries": deliveries
+    })
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def logistics_order_detail(request, pk):
+    delivery = get_object_or_404(Delivery, order_id=pk)
+    delivery_people = DeliveryPerson.objects.filter(is_active=True)
+
+    return render(request, "logistics/order_detail.html", {
+        "delivery": delivery,
+        "delivery_people": delivery_people
+    })
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def update_delivery_status(request, pk):
+    delivery = get_object_or_404(Delivery, order_id=pk)
+
+    if request.method == "POST":
+        delivery.status = request.POST.get("status")
+        delivery.tracking_note = request.POST.get("tracking_note")
+        delivery.save()
+
+    return redirect("delivery_detail", pk=pk)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def assign_delivery_person(request, pk):
+    delivery = get_object_or_404(Delivery, order_id=pk)
+
+    if request.method == "POST":
+        person_id = request.POST.get("delivery_person")
+        delivery.delivery_person = DeliveryPerson.objects.get(id=person_id) if person_id else None
+        delivery.save()
+
+    return redirect("delivery_detail", pk=pk)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def delivery_person_list(request):
+    persons = DeliveryPerson.objects.all()
+    return render(request, "logistics/delivery_person_list.html", {"persons": persons})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def delivery_person_create(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        phone = request.POST.get("phone")
+
+        DeliveryPerson.objects.create(name=name, phone=phone)
+
+        return redirect("delivery_person_list")
+
+    return render(request, "logistics/delivery_person_form.html")
+
+@staff_member_required
+def delivery_list(request):
+    deliveries = Delivery.objects.select_related("order", "delivery_person").all()
+
+    return render(request, "logistics/delivery_list.html", {
+        "deliveries": deliveries
+    })
+
+@staff_member_required
+def delivery_detail(request, pk):
+    delivery = get_object_or_404(Delivery, order__id=pk)
+    delivery_people = DeliveryPerson.objects.filter(is_active=True)
+
+    return render(request, "logistics/delivery_detail.html", {
+        "delivery": delivery,
+        "delivery_people": delivery_people
+    })
+
+@staff_member_required
+def delivery_update(request, pk):
+    delivery = get_object_or_404(Delivery, order__id=pk)
+
+    if request.method == "POST":
+        delivery.status = request.POST.get("status")
+        delivery.tracking_note = request.POST.get("tracking_note")
+        delivery.save()
+
+    return redirect("logistics/delivery_detail", pk=pk)
+
+@staff_member_required
+def delivery_assign(request, pk):
+    delivery = get_object_or_404(Delivery, order__id=pk)
+
+    if request.method == "POST":
+        person_id = request.POST.get("delivery_person")
+        delivery.delivery_person = DeliveryPerson.objects.get(pk=person_id)
+        delivery.save()
+
+    return redirect("logistics/delivery_detail", pk=pk)
+@staff_member_required
+def delivery_person_list(request):
+    delivery_people = DeliveryPerson.objects.all()
+    return render(request, "logistics/delivery_person_list.html", {
+        "delivery_people": delivery_people
+    })
+
+
+@staff_member_required
+def delivery_person_create(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        phone = request.POST.get("phone")
+
+        if not name:
+            messages.error(request, "O nome do entregador é obrigatório.")
+        else:
+            DeliveryPerson.objects.create(name=name, phone=phone)
+            messages.success(request, "Entregador criado com sucesso!")
+            return redirect("delivery_person_list")
+
+    return render(request, "logistics/delivery_person_form.html")

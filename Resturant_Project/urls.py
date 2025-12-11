@@ -8,13 +8,18 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             FakePaymentView, FeedbackView, HomeView, LoginView,
                             LogoutView, MenuView, MyOrdersView,
                             OrderSuccessView, RemoveCartItem, SignupView,
-                            UserProfileView, add_to_cart, cms_create, cms_edit,
-                            cms_list, decrease_quantity, get_cart_items,
-                            increase_quantity, items_create, items_edit,
-                            items_list, order_list)
+                            UserProfileView, add_to_cart,
+                            assign_delivery_person, cms_create, cms_edit,
+                            cms_list, decrease_quantity, delivery_detail,
+                            delivery_list, delivery_person_create,
+                            delivery_person_list, delivery_update,
+                            get_cart_items, increase_quantity, items_create,
+                            items_edit, items_list, logistics_dashboard,
+                            logistics_order_detail, order_list,
+                            update_delivery_status)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Django admin
+    path('admin/', admin.site.urls),
 
     # CUSTOM ADMIN PANEL
     path("dashboard/items/", items_list, name="items_list"),
@@ -59,6 +64,26 @@ urlpatterns = [
 
     path("increase/<int:cart_id>/", increase_quantity, name="increase_quantity"),
     path("decrease/<int:cart_id>/", decrease_quantity, name="decrease_quantity"),
+
+    # ==============================
+    #          LOGÍSTICA
+    # ==============================
+
+    # Lista geral de entregas
+    path("dashboard/deliveries/", delivery_list, name="delivery_list"),
+
+    # Detalhe da entrega
+    path("dashboard/delivery/<int:pk>/", delivery_detail, name="delivery_detail"),
+
+    # Atualizar status da entrega
+    path("dashboard/delivery/<int:pk>/update/", delivery_update, name="delivery_update"),
+
+    # Atribuir entregador
+    path("dashboard/delivery/<int:pk>/assign/", assign_delivery_person, name="delivery_assign"),
+
+    # Entregadores
+    path("dashboard/delivery-person/", delivery_person_list, name="delivery_person_list"),
+    path("dashboard/delivery-person/add/", delivery_person_create, name="delivery_person_add"),
 ]
 
 if settings.DEBUG:

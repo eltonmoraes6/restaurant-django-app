@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<div class="container mt-4">
+
+    <h2>Entrega do Pedido #{{ delivery.order.id }}</h2>
+
+    <p><strong>Status atual:</strong> {{ delivery.get_status_display }}</p>
+
+    <hr>
+
+    <!-- ==========================
+         ATUALIZAR STATUS
+    =========================== -->
+    <h4>Atualizar Status</h4>
+
+    <form method="post" action="{% url 'delivery_update' delivery.order.id %}">
+        {% csrf_token %}
+
+        <label>Status</label>
+        <select name="status" class="form-control">
+            {% for value, label in delivery.STATUS_CHOICES %}
+                <option value="{{ value }}"
+                    {% if delivery.status == value %}
+                        selected
+                    {% endif %}
+                >
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label class="mt-3">Observações</label>
+        <textarea name="tracking_note" class="form-control">{{ delivery.tracking_note }}</textarea>
+
+        <button class="btn btn-success mt-3">Salvar</button>
+    </form>
+
+    <hr>
+
+    <!-- ==========================
+         ATRIBUIR ENTREGADOR
+    =========================== -->
+    <h4>Atribuir Entregador</h4>
+
+    <form method="post" action="{% url 'delivery_assign' delivery.order.id %}">
+        {% csrf_token %}
+
+        <label>Entregador</label>
+        <select name="delivery_person" class="form-control">
+
+            <option value="">— Sem entregador —</option>
+
+            {% for p in delivery_people %}
+                <option value="{{ p.id }}"
+                    {% if delivery.delivery_person and delivery.delivery_person.id == p.id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ p.name }} — {{ p.phone }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-primary mt-3">Atribuir</button>
+    </form>
+
+</div>
+
+{% endblock %}

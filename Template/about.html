@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-md-6">
         <div class="img-box">
-          <img src="{% static 'images/about-img.png' %}" alt="About Image">
+          <img src="{% static 'images/about-img.png' %}" alt="Imagem Sobre">
         </div>
       </div>
 
@@ -22,14 +22,16 @@
         <div class="detail-box">
           <div class="heading_container">
             <h2>
-              {% cms 'about' 'title' default='We Are Feane' %}
+              {% cms 'about' 'title' default='Nós Somos a Feane' %}
             </h2>
-            <h4>{% cms 'about' 'subtitle' default="Our Story" %}</h4>
+            <h4>
+              {% cms 'about' 'subtitle' default="Nossa História" %}
+            </h4>
           </div>
 
           <div>
             <p>
-              {% cms 'about' 'description' default="We began our journey in 1990..." %}
+              {% cms 'about' 'description' default="Iniciamos nossa jornada em 1990, trazendo sabores únicos..." %}
             </p>
           </div>
 

@@ -1,19 +1,18 @@
 {% extends "base.html" %}
 {% block hero %}{% endblock hero %}
-{% block class %}class="sub_page"{% endblock class %}
 {% block main %}
 
 <section class="layout_padding">
     <div class="container text-center">
 
-        <h2>Fake Payment</h2>
-        <p>This is a demo payment gateway.</p>
+        <h2>Pagamento de Demonstração</h2>
+        <p>Este é um sistema de pagamento fictício.</p>
 
-        <h3>Total Charge: <strong>${{ total }}</strong></h3>
+        <h3>Total a Cobrar: <strong>R${{ total }}</strong></h3>
 
         <div style="font-size: 60px; margin: 20px;">💳</div>
 
-        <p>Processing payment...</p>
+        <p>Processando pagamento...</p>
 
         <script>
             setTimeout(() => {
@@ -21,7 +20,7 @@
             }, 2000);
         </script>
 
-        <p><small>You will be redirected in 2 seconds...</small></p>
+        <p><small>Você será redirecionado em 2 segundos...</small></p>
     </div>
 </section>
 

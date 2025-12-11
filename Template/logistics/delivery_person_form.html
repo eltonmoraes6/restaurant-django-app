@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block hero %}{% endblock hero %}
+{% block main %}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <h2>Cadastrar Entregador</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Nome do Entregador</label>
+        <input type="text" name="name" class="form-control" required>
+
+        <label class="mt-3">Telefone</label>
+        <input type="text" name="phone" class="form-control">
+
+        <button class="btn btn-primary mt-3">Salvar</button>
+    </form>
+
+</div>
+
+{% endblock %}

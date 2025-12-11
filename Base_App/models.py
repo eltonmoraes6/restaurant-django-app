@@ -114,3 +114,39 @@ class PageSection(models.Model):
 
     def __str__(self):
         return f"{self.page} - {self.section}"
+
+class Delivery(models.Model):
+    STATUS_CHOICES = [
+        ("pending", "Pendente"),
+        ("preparing", "Em Separação"),
+        ("shipping", "Em Rota"),
+        ("delivered", "Entregue"),
+        ("cancelled", "Cancelado"),
+    ]
+
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="delivery")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # FIX AQUI
+    delivery_person = models.ForeignKey(
+        "DeliveryPerson",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="deliveries"
+    )
+
+    tracking_note = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Entrega Pedido #{self.order.id}"
+
+
+class DeliveryPerson(models.Model):
+    name = models.CharField(max_length=150)
+    phone = models.CharField(max_length=20, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
