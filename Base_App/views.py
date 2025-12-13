@@ -10,6 +10,8 @@ from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from .forms import CategoryForm 
 
 from Base_App.models import (AboutUs, BookTable, Cart, Delivery,
                              DeliveryPerson, Feedback, ItemList, Items, Order,
@@ -369,6 +371,19 @@ def cms_edit(request, pk):
         form = PageSectionForm(instance=section)
 
     return render(request, "cms_form.html", {"form": form, "title": "Edit CMS Section"})
+
+# ===========================================================
+#New Category Management Views
+# ===========================================================
+
+def add_category(request):
+    form = CategoryForm(request.POST or None)
+    success = False
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        success = True
+        form = CategoryForm()  # limpa o formulário
+    return render(request, 'add_category.html', {'form': form, 'success': success})
 
 
 # ============================================================

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (AboutUs, BookTable, Cart, CMSContent, Delivery,
                      DeliveryPerson, Feedback, ItemList, Items, Order,
-                     OrderItem, PageSection)
+                     OrderItem, PageSection, Category)
 
 
 @admin.register(CMSContent)
@@ -10,6 +10,20 @@ class CMSContentAdmin(admin.ModelAdmin):
     list_display = ("page", "key", "updated_at")
     list_filter = ("page",)
     search_fields = ("page", "key", "value")
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "created_at")
+    search_fields = ("name",)
+    list_per_page = 10
+
+    fieldsets = (
+        ("📂 Informações da Categoria", {
+            "fields": ("name",),
+            "description": "Crie categorias para organizar melhor o cardápio."
+        }),
+    )
 
 
 @admin.register(PageSection)

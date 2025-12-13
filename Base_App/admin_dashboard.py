@@ -12,6 +12,7 @@ def cms_environment(request):
             ("Footer", "/admin/Base_App/pagesection/?page=footer"),
             ("Products", "/admin/Base_App/items/"),
             ("Categories", "/admin/Base_App/itemlist/"),
+             ("Adicionar Categoria", "/admin/Base_App/itemlist/add/"),
         ]
     }
     return TemplateResponse(request, "admin/cms_environment.html", context)

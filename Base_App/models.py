@@ -9,11 +9,34 @@ class ItemList(models.Model):
         return self.Category_name
 
 
+# ------------------------
+# NOVA MODEL DE CATEGORIA (CORRETA)
+# ------------------------
+
+class Category(models.Model):
+    name = models.CharField("Nome da Categoria", max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+# ------------------------
+# ITENS DO CARDÁPIO
+# ------------------------
+
 class Items(models.Model):
     Item_name = models.CharField(max_length=40)
     description = models.TextField(blank=False)
     Price = models.IntegerField()
-    Category = models.ForeignKey(ItemList, related_name='Name', on_delete=models.CASCADE)
+
+    # 🔥 AQUI ESTÁ A CORREÇÃO
+    Category = models.ForeignKey(
+        Category,                 # ← agora usa a categoria certa
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
+
     Image = models.ImageField(upload_to='items/')
 
     def __str__(self):
@@ -55,7 +78,7 @@ class Cart(models.Model):
 
 
 # ------------------------
-#  NEW ORDER MODELS
+# PEDIDOS
 # ------------------------
 
 class Order(models.Model):
@@ -70,7 +93,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    item = models.ForeignKey(Items, on_delete=models.CASCADE)  # refer directly (no import)
+    item = models.ForeignKey(Items, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -80,10 +103,15 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.item.Item_name} ({self.quantity})"
 
+
+# ------------------------
+# CMS
+# ------------------------
+
 class CMSContent(models.Model):
-    page = models.CharField(max_length=50)      # ex: home, about, footer
-    key = models.CharField(max_length=50)       # ex: hero_title, about_text
-    value = models.TextField()                  # editable text
+    page = models.CharField(max_length=50)
+    key = models.CharField(max_length=50)
+    value = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -91,6 +119,7 @@ class CMSContent(models.Model):
 
     def __str__(self):
         return f"{self.page} - {self.key}"
+
 
 class PageSection(models.Model):
     PAGE_CHOICES = [
@@ -102,11 +131,10 @@ class PageSection(models.Model):
     ]
 
     page = models.CharField(max_length=50, choices=PAGE_CHOICES)
-    section = models.CharField(max_length=100)  # example: 'hero_title'
+    section = models.CharField(max_length=100)
     title = models.CharField(max_length=200, blank=True)
     content = models.TextField(blank=True)
     image = models.ImageField(upload_to="cms/", blank=True, null=True)
-
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -114,6 +142,11 @@ class PageSection(models.Model):
 
     def __str__(self):
         return f"{self.page} - {self.section}"
+
+
+# ------------------------
+# DELIVERY
+# ------------------------
 
 class Delivery(models.Model):
     STATUS_CHOICES = [
@@ -128,7 +161,6 @@ class Delivery(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     updated_at = models.DateTimeField(auto_now=True)
 
-    # FIX AQUI
     delivery_person = models.ForeignKey(
         "DeliveryPerson",
         on_delete=models.SET_NULL,

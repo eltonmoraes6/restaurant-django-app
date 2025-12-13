@@ -2,6 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from Base_App.views import add_category
+from django.shortcuts import redirect
 
 from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             CartPageView, CheckoutPageView, ConfirmOrder,
@@ -27,6 +29,11 @@ urlpatterns = [
     path("dashboard/items/edit/<int:pk>/", items_edit, name="item_edit"),
 
     path("dashboard/orders/", order_list, name="order_list"),
+    #added category urls
+    path("/admin/Base_App/category/add/", items_create, name="category_add"),
+    # ADICIONE ESSA LINHA
+    path("dashboard/category/add/", add_category, name="category_add"),
+
 
     # CMS
     path("cms/", cms_list, name="cms_list"),
