@@ -13,7 +13,7 @@
                 <th>Status</th>
                 <th>Entregador</th>
                 <th>Atualizado</th>
-                <th></th>
+                <th>Ações</th>
             </tr>
         </thead>
 
@@ -31,17 +31,21 @@
                     {% endif %}
                 </td>
                 <td>{{ d.updated_at|date:"d/m/Y H:i" }}</td>
-
                 <td>
                     <a href="{% url 'delivery_detail' d.order.id %}" class="btn btn-primary btn-sm">
                         Gerenciar
                     </a>
                 </td>
             </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Nenhuma entrega encontrada.
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
-
 </div>
 
 {% endblock %}

@@ -604,7 +604,8 @@ def delivery_update(request, pk):
         delivery.tracking_note = request.POST.get("tracking_note")
         delivery.save()
 
-    return redirect("logistics/delivery_detail", pk=pk)
+    return redirect("delivery_detail", pk=pk)
+
 
 @staff_member_required
 def delivery_assign(request, pk):
@@ -612,10 +613,15 @@ def delivery_assign(request, pk):
 
     if request.method == "POST":
         person_id = request.POST.get("delivery_person")
-        delivery.delivery_person = DeliveryPerson.objects.get(pk=person_id)
+        delivery.delivery_person = (
+            DeliveryPerson.objects.get(pk=person_id)
+            if person_id else None
+        )
         delivery.save()
 
-    return redirect("logistics/delivery_detail", pk=pk)
+    return redirect("delivery_detail", pk=pk)
+
+
 @staff_member_required
 def delivery_person_list(request):
     delivery_people = DeliveryPerson.objects.all()
