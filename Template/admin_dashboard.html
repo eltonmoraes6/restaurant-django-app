@@ -10,28 +10,28 @@
         <div class="row mt-4">
 
             <div class="col-md-3">
-                <div class="card p-3 text-center shadow">
+                <div class="card admin-tool-card shadow">
                     <h4>Total de Usuários</h4>
                     <h2>{{ total_users }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center shadow">
+                <div class="card admin-tool-card shadow">
                     <h4>Total de Pedidos</h4>
                     <h2>{{ total_orders }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center shadow">
+                <div class="card admin-tool-card shadow">
                     <h4>Receita Total</h4>
                     <h2>R${{ total_revenue }}</h2>
                 </div>
             </div>
 
             <div class="col-md-3">
-                <div class="card p-3 text-center shadow bg-warning">
+                <div class="card admin-tool-card shadow bg-warning">
                     <h4>Entregas Pendentes</h4>
                     <h2>{{ pending_deliveries }}</h2>
                 </div>
@@ -46,35 +46,35 @@
 
         <div class="row mb-4">
 
-            <div class="col-md-3">
-                <a href="{% url 'cms_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-info text-white shadow-sm">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'cms_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-info text-white shadow-sm">
                         <h4>📝 Conteúdo do CMS</h4>
                         <p>Editar textos dinâmicos do site</p>
                     </div>
                 </a>
             </div>
 
-            <div class="col-md-3">
-                <a href="{% url 'items_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-warning text-dark shadow-sm">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'items_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-warning text-dark shadow-sm">
                         <h4>🍔 Gerenciar Produtos</h4>
                         <p>Visualizar / Editar Cardápio</p>
                     </div>
                 </a>
             </div>
 
-            <div class="col-md-3">
-                <a href="{% url 'item_add' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-success text-white shadow-sm">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'item_add' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-success text-white shadow-sm">
                         <h4>➕ Adicionar Produto</h4>
                         <p>Novo item do cardápio</p>
                     </div>
                 </a>
             </div>
-            <div class="col-md-3">
-                <a href="/admin/Base_App/category/add/" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-success text-white shadow-sm">
+            <div class="col-md-3 mb-3">
+                <a href="{% url 'category_add' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-success text-white shadow-sm">
                         <h4>➕ Categoria</h4>
                         <p>Adicionar nova categoria</p>
                     </div>
@@ -82,15 +82,15 @@
             </div>
 
 
-            <div class="col-md-3">
-                <a href="{% url 'order_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-primary text-white shadow-sm">
+            <div class="col-md-3 mt-3">
+                <a href="{% url 'order_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-primary text-white shadow-sm">
                         <h4>📦 Pedidos</h4>
                         <p>Lista completa de pedidos</p>
                     </div>
                 </a>
             </div>
-            
+
         </div>
 
         <!-- LOGISTICS BLOCK -->
@@ -99,8 +99,8 @@
         <div class="row mb-4">
 
             <div class="col-md-4">
-                <a href="{% url 'delivery_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-secondary text-white shadow-sm">
+                <a href="{% url 'delivery_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-secondary text-white shadow-sm">
                         <h4>🚚 Entregas</h4>
                         <p>Acompanhar status das entregas</p>
                     </div>
@@ -108,8 +108,8 @@
             </div>
 
             <div class="col-md-4">
-                <a href="{% url 'delivery_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-dark text-white shadow-sm">
+                <a href="{% url 'delivery_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-dark text-white shadow-sm">
                         <h4>👤 Atribuir Entregador</h4>
                         <p>Designar entregador</p>
                     </div>
@@ -117,8 +117,8 @@
             </div>
 
             <div class="col-md-4">
-                <a href="{% url 'delivery_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-success text-white shadow-sm">
+                <a href="{% url 'delivery_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-success text-white shadow-sm">
                         <h4>📍 Rastreamento</h4>
                         <p>Progresso & anotações</p>
                     </div>
@@ -126,8 +126,8 @@
             </div>
 
             <div class="col-md-4 mt-3">
-                <a href="{% url 'delivery_person_list' %}" class="text-decoration-none">
-                    <div class="card p-3 text-center bg-dark text-white shadow-sm">
+                <a href="{% url 'delivery_person_list' %}" class="text-decoration-none h-100 d-block">
+                    <div class="card admin-tool-card bg-dark text-white shadow-sm">
                         <h4>👥 Entregadores</h4>
                         <p>Gerenciar cadastrados</p>
                     </div>

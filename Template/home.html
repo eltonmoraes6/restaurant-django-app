@@ -14,9 +14,11 @@
             <div class="col-md-7 col-lg-6 ">
               <div class="detail-box">
                 <p class="lead mt-3">
-                    No <strong>Restaurante do IFS</strong>, a boa comida acompanha a rotina de quem estuda e trabalha aqui. Cada refeição é preparada com cuidado, pensando no sabor, na qualidade e no bem-estar de toda a comunidade acadêmica.
-                  </p>
-                
+                  No <strong>Restaurante do IFS</strong>, a boa comida acompanha a rotina de quem estuda e trabalha
+                  aqui. Cada refeição é preparada com cuidado, pensando no sabor, na qualidade e no bem-estar de toda a
+                  comunidade acadêmica.
+                </p>
+
               </div>
             </div>
           </div>
@@ -96,15 +98,20 @@
 
     <ul class="filters_menu">
       <li class="active" data-filter="*">Todos</li>
-      {% for i in list %}
-      <li data-filter=".{{i.Category_name}}">{{i.Category_name}}</li>
+      {% for c in categories %}
+      <li data-filter=".{{ c.name|slugify }}">
+        {{ c.name }}
+      </li>
       {% endfor %}
     </ul>
+
+
 
     <div class="filters-content">
       <div class="row grid">
         {% for j in items %}
-        <div class="col-sm-6 col-lg-4 all {{j.Category}}">
+        <div class="col-sm-6 col-lg-4 all {{ j.Category.name|slugify }}">
+
           <div class="box">
             <div>
               <div class="img-box">

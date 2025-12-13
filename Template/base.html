@@ -95,6 +95,53 @@
       color: #000 !important;
       font-weight: bold;
     }
+
+    /* ==========================
+   ADMIN DASHBOARD CARDS
+========================== */
+
+    .admin-tool-card {
+      height: 100%;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .admin-tool-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .admin-tool-card p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+
+    /* ==========================
+   NAVBAR BUTTONS
+========================== */
+
+    .navbar-btn {
+      height: 40px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Dropdown button */
+    .navbar .dropdown-toggle {
+      height: 40px;
+    }
+
+    /* Cart button */
+    #cart-button {
+      height: 40px;
+      padding: 6px 14px;
+    }
   </style>
 
 
@@ -108,8 +155,8 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container">
         <a class="navbar-brand" href="{% url 'Home' %}">
-            <span>Sabor IF</span>
-          </a>
+          <span>Sabor IF</span>
+        </a>
 
 
         <!-- NAV TOGGLE -->
@@ -148,7 +195,7 @@
             {% if user.is_authenticated %}
 
             <div class="dropdown">
-              <button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+              <button class="btn btn-light dropdown-toggle navbar-btn" data-toggle="dropdown">
                 <i class="fa fa-user"></i> {{ user.username }}
               </button>
 
@@ -171,14 +218,13 @@
               </div>
             </div>
 
-            <button id="cart-button" class="btn btn-primary ml-3">
+            <button id="cart-button" class="btn btn-primary navbar-btn ml-3">
               <i class="fa fa-shopping-cart"></i>
               Carrinho <span id="cart-count" class="badge badge-dark">{{ cart_count }}</span>
             </button>
 
-
             {% else %}
-            <a href="{% url 'login' %}" class="btn order_online">Entrar</a>
+            <a href="{% url 'login' %}" class="btn order_online navbar-btn">Entrar</a>
             {% endif %}
           </div>
 
@@ -189,182 +235,213 @@
 
 
   <!-- end header section -->
-<! colocar aqui a mensagem por cima da imagem >
-  {% block hero %}
-  <div class="hero_area">
-    <div class="bg-box">
-      <img src="{% static 'images/hero-bg.jpg' %}" alt="">
+  <! colocar aqui a mensagem por cima da imagem>
+    {% block hero %}
+    <div class="hero_area">
+      <div class="bg-box">
+        <img src="{% static 'images/hero-bg.jpg' %}" alt="">
+      </div>
+
+      {% block slider %}{% endblock slider %}
     </div>
+    {% endblock hero %}
 
-    {% block slider %}{% endblock slider %}
-  </div>
-  {% endblock hero %}
+    <!-- CART MODAL -->
+    <div id="cart-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
-  <!-- CART MODAL -->
-  <div id="cart-modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Seu Carrinho </h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
 
-        <div class="modal-header">
-          <h5 class="modal-title">Seu Carrinho </h5>
-          <button type="button" class="close" data-dismiss="modal">
-            <span>&times;</span>
-          </button>
+          <div class="modal-body">
+            <ul id="cart-items-list"></ul>
+          </div>
+
+          <div class="modal-footer">
+            <a href="{% url 'Cart' %}" class="btn btn-primary">Ir para o Carrinho </a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+
         </div>
-
-        <div class="modal-body">
-          <ul id="cart-items-list"></ul>
-        </div>
-
-        <div class="modal-footer">
-          <a href="{% url 'Cart' %}" class="btn btn-primary">Ir para o Carrinho </a>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        </div>
-
       </div>
     </div>
-  </div>
-  <!-- END CART MODAL -->
+    <!-- END CART MODAL -->
 
-  {% block main %}{% endblock main %}
+    {% block main %}{% endblock main %}
 
-  <!-- footer section -->
-  <footer class="footer_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 footer-col">
-          <div class="footer_contact">
-            <h4>
-              Fale Conosco
-            </h4>
-            <div class="contact_link_box">
-              <a href="">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span>
-                  Localização
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span>
-                  Ligue +55 (79) 99999-9999
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <span>
-                  aluno.ifs@gmail.com
-                </span>
-              </a>
+    <!-- footer section -->
+    <footer class="footer_section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 footer-col">
+            <div class="footer_contact">
+              <h4>
+                Fale Conosco
+              </h4>
+              <div class="contact_link_box">
+                <a href="">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  <span>
+                    Localização
+                  </span>
+                </a>
+                <a href="">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  <span>
+                    Ligue +55 (79) 99999-9999
+                  </span>
+                </a>
+                <a href="">
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span>
+                    aluno.ifs@gmail.com
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <div class="footer_detail">
-            <a href="" class="footer-logo">
-              Sabor IF
-            </a>
+          <div class="col-md-4 footer-col">
+            <div class="footer_detail">
+              <a href="" class="footer-logo">
+                Sabor IF
+              </a>
+              <p>
+                Desenvolvido para oferecer praticidade e eficiência, este sistema foi pensado para facilitar pedidos,
+                organizar informações e melhorar a experiência dos usuários, unindo tecnologia e funcionalidade em um só
+                lugar.
+              </p>
+
+            </div>
+          </div>
+          <div class="col-md-4 footer-col">
+            <h4>
+              Horário de Funcionamento
+            </h4>
             <p>
-             Desenvolvido para oferecer praticidade e eficiência, este sistema foi pensado para facilitar pedidos, organizar informações e melhorar a experiência dos usuários, unindo tecnologia e funcionalidade em um só lugar.
+              Todos os dias
             </p>
-           
+            <p>
+              10:00 - 22:00
+            </p>
           </div>
         </div>
-        <div class="col-md-4 footer-col">
-          <h4>
-            Horário de Funcionamento
-          </h4>
-          <p>
-            Todos os dias
-          </p>
-          <p>
-            10:00 - 22:00
-          </p>
-        </div>
+
       </div>
-      
-    </div>
-  </footer>
-  <!-- footer section -->
+    </footer>
+    <!-- footer section -->
 
-  <!-- jQery -->
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    <!-- jQery -->
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+      </script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/bootstrap.js' %} "></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
     </script>
-  <!-- bootstrap js -->
-  <script src="{% static 'js/bootstrap.js' %} "></script>
-  <!-- owl slider -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
-  </script>
-  <!-- isotope js -->
-  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
-  <!-- nice select -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
-  <!-- custom js -->
-  <script src="{% static 'js/custom.js' %} "></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
-  <!-- End Google Map -->
+    <!-- isotope js -->
+    <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+    <!-- nice select -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+    <!-- custom js -->
+    <script src="{% static 'js/custom.js' %} "></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
+    <!-- End Google Map -->
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
 
-      const cartBtn = document.getElementById('cart-button');
-      if (!cartBtn) {
-        console.error("Cart button NOT FOUND");
-        return;
-      }
+        const cartBtn = document.getElementById('cart-button');
+        if (!cartBtn) {
+          console.error("Cart button NOT FOUND");
+          return;
+        }
 
-      cartBtn.addEventListener('click', function () {
-        fetch('{% url "get_cart_items" %}')
-          .then(response => response.json())
-          .then(data => {
-            console.log("Cart Data:", data);  // Debug log
-            const cartList = document.getElementById('cart-items-list');
-            cartList.innerHTML = '';
+        cartBtn.addEventListener('click', function () {
+          fetch('{% url "get_cart_items" %}')
+            .then(response => response.json())
+            .then(data => {
+              console.log("Cart Data:", data);  // Debug log
+              const cartList = document.getElementById('cart-items-list');
+              cartList.innerHTML = '';
 
-            if (data.items && data.items.length > 0) {
-              data.items.forEach(item => {
-                cartList.innerHTML += `
+              if (data.items && data.items.length > 0) {
+                data.items.forEach(item => {
+                  cartList.innerHTML += `
                 <li>${item.name} - ${item.quantity} x $${item.price} = $${item.total}</li>
               `;
-              });
-            } else {
-              cartList.innerHTML = '<li>Seu carrinho está vazio.</li>';
-            }
+                });
+              } else {
+                cartList.innerHTML = '<li>Seu carrinho está vazio.</li>';
+              }
 
-            $('#cart-modal').modal('show');
-          })
-          .catch(error => console.error("Error fetching cart items:", error));
+              $('#cart-modal').modal('show');
+            })
+            .catch(error => console.error("Error fetching cart items:", error));
+        });
+
       });
 
-    });
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach(button => {
+          button.addEventListener("click", function () {
+            const itemId = this.dataset.itemId;
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", function () {
-          const itemId = this.dataset.itemId;
-
-          fetch("{% url 'add_to_cart' %}", {
-            method: "POST",
-            headers: {
-              "X-CSRFToken": "{{ csrf_token }}",
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `item_id=${itemId}`
-          })
-            .then(res => res.json())
-            .then(data => {
-              alert(data.message);
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: `item_id=${itemId}`
             })
-            .catch(() => alert("Erro ao adicionar ao carrinho"));
+              .then(res => res.json())
+              .then(data => {
+                alert(data.message);
+              })
+              .catch(() => alert("Erro ao adicionar ao carrinho"));
+          });
         });
       });
-    });
-  </script>
+
+
+      $(window).on('load', function () {
+
+        var $grid = $('.grid').isotope({
+          itemSelector: '.all',
+          layoutMode: 'fitRows'
+        });
+
+        $('.filters_menu li').on('click', function () {
+          $('.filters_menu li').removeClass('active');
+          $(this).addClass('active');
+
+          var filterValue = $(this).attr('data-filter');
+          $grid.isotope({ filter: filterValue });
+        });
+
+      });
+
+      $('.filters_menu li').click(function () {
+        $('.filters_menu li').removeClass('active');
+        $(this).addClass('active');
+
+        var filterValue = $(this).attr('data-filter');
+        $('.grid').isotope({
+          filter: filterValue
+        });
+      });
+
+    </script>
 
 </body>
 

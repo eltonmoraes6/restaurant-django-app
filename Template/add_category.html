@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Categoria</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/category_admin.css' %}">
+</head>
+
+<body>
+
+    <section class="layout_padding">
+        <div class="container">
+
+            <div class="heading_container heading_center">
+                <h2>➕ Nova Categoria</h2>
+                <p>Cadastre uma nova categoria para o cardápio</p>
+            </div>
+
+            <div class="module" style="max-width:500px; margin:auto;">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="form-row" style="margin-bottom:20px;">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="error" style="color:red; font-size:14px;">
+                            {{ field.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div style="text-align:center;">
+                        <button type="submit" class="btn">
+                            💾 Salvar
+                        </button>
+                        <a href="{% url 'category_list' %}" class="btn" style="background:#ccc; color:#000;">
+                            ↩ Voltar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

@@ -1,3 +1,4 @@
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -10,14 +11,12 @@ from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
-from .forms import CategoryForm 
 
-from Base_App.models import (AboutUs, BookTable, Cart, Delivery,
-                             DeliveryPerson, Feedback, ItemList, Items, Order,
-                             OrderItem, PageSection, User)
+from Base_App.models import (AboutUs, BookTable, Cart, Category, Delivery,
+                             DeliveryPerson, Feedback, Items, Order, OrderItem,
+                             PageSection, User)
 
-from .forms import ItemsForm, PageSectionForm
+from .forms import CategoryForm, ItemsForm, PageSectionForm
 
 # ============================================================
 # CART SYSTEM 
@@ -108,11 +107,16 @@ def SignupView(request):
 # ============================================================
 
 def HomeView(request):
-    return render(request, 'home.html', {
-        'items': Items.objects.all(),
-        'list': ItemList.objects.all(),
-        'review': Feedback.objects.all().order_by('-id')[:5]
+    categories = Category.objects.all()
+    items = Items.objects.select_related("Category").all()
+    review = Feedback.objects.all()
+
+    return render(request, "home.html", {
+        "categories": categories,
+        "items": items,
+        "review": review
     })
+
 
 
 def AboutView(request):
@@ -123,9 +127,10 @@ def AboutView(request):
 
 def MenuView(request):
     return render(request, 'menu.html', {
-        'items': Items.objects.all(),
-        'list': ItemList.objects.all()
+        'items': Items.objects.select_related("Category").all(),
+        'categories': Category.objects.all()
     })
+
 
 
 # ============================================================
@@ -376,14 +381,28 @@ def cms_edit(request, pk):
 #New Category Management Views
 # ===========================================================
 
-def add_category(request):
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def category_list(request):
+    categories = Category.objects.all().order_by("name")
+    return render(request, "category_list.html", {
+        "categories": categories
+    })
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def category_create(request):
     form = CategoryForm(request.POST or None)
-    success = False
-    if request.method == 'POST' and form.is_valid():
+
+    if request.method == "POST" and form.is_valid():
         form.save()
-        success = True
-        form = CategoryForm()  # limpa o formulário
-    return render(request, 'add_category.html', {'form': form, 'success': success})
+        messages.success(request, "Categoria criada com sucesso!")
+        return redirect("category_list")
+
+    return render(request, "add_category.html", {
+        "form": form
+    })
 
 
 # ============================================================
@@ -408,7 +427,7 @@ def items_create(request):
     else:
         form = ItemsForm()
 
-    return render(request, "items_form.html", {"form": form, "title": "Add Product"})
+    return render(request, "items_form.html", {"form": form, "title": "Adicionar Produto"})
 
 
 @login_required
@@ -438,31 +457,16 @@ def order_list(request):
     return render(request, "order_list.html", {"orders": orders})
 
 
-# ============================================================
-# LOGISTICS SYSTEM
-# ============================================================
-
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def logistics_dashboard(request):
-    deliveries = Delivery.objects.select_related("order", "delivery_person").order_by("-updated_at")
-
-    return render(request, "logistics/dashboard.html", {
-        "deliveries": deliveries
-    })
-
-
-
-
 def logistics_order_detail(request, pk):
     delivery = get_object_or_404(Delivery, order_id=pk)
-    delivery_people = DeliveryPerson.objects.all()
+    delivery_people = DeliveryPerson.objects.filter(is_active=True)
 
     return render(request, "logistics/order_detail.html", {
         "delivery": delivery,
         "delivery_people": delivery_people
     })
-
 
 def update_delivery_status(request, pk):
     delivery = get_object_or_404(Delivery, order_id=pk)
@@ -521,31 +525,6 @@ def logistics_dashboard(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def logistics_order_detail(request, pk):
-    delivery = get_object_or_404(Delivery, order_id=pk)
-    delivery_people = DeliveryPerson.objects.filter(is_active=True)
-
-    return render(request, "logistics/order_detail.html", {
-        "delivery": delivery,
-        "delivery_people": delivery_people
-    })
-
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def update_delivery_status(request, pk):
-    delivery = get_object_or_404(Delivery, order_id=pk)
-
-    if request.method == "POST":
-        delivery.status = request.POST.get("status")
-        delivery.tracking_note = request.POST.get("tracking_note")
-        delivery.save()
-
-    return redirect("delivery_detail", pk=pk)
-
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
 def assign_delivery_person(request, pk):
     delivery = get_object_or_404(Delivery, order_id=pk)
 
@@ -557,39 +536,16 @@ def assign_delivery_person(request, pk):
     return redirect("delivery_detail", pk=pk)
 
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def delivery_person_list(request):
-    persons = DeliveryPerson.objects.all()
-    return render(request, "logistics/delivery_person_list.html", {"persons": persons})
-
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def delivery_person_create(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-
-        DeliveryPerson.objects.create(name=name, phone=phone)
-
-        return redirect("delivery_person_list")
-
-    return render(request, "logistics/delivery_person_form.html")
-
 @staff_member_required
 def delivery_list(request):
-    deliveries = Delivery.objects.select_related("order", "delivery_person").all()
+    deliveries = Delivery.objects.select_related("order", "delivery_person")
+    return render(request, "logistics/delivery_list.html", {"deliveries": deliveries})
 
-    return render(request, "logistics/delivery_list.html", {
-        "deliveries": deliveries
-    })
 
 @staff_member_required
 def delivery_detail(request, pk):
     delivery = get_object_or_404(Delivery, order__id=pk)
     delivery_people = DeliveryPerson.objects.filter(is_active=True)
-
     return render(request, "logistics/delivery_detail.html", {
         "delivery": delivery,
         "delivery_people": delivery_people

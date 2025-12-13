@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Categorias</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/category_admin.css' %}">
+</head>
+
+<body>
+
+    <section class="layout_padding">
+        <div class="container">
+
+            <div class="heading_container heading_center">
+                <h2>📂 Categorias</h2>
+                <p>Lista de categorias cadastradas</p>
+            </div>
+
+            <div style="text-align:right; margin-bottom:20px;">
+                <a href="{% url 'category_add' %}" class="btn">
+                    ➕ Adicionar Categoria
+                </a>
+            </div>
+
+            {% if categories %}
+            <table class="table" style="width:100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Criada em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.created_at|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="text-align:center;">Nenhuma categoria cadastrada.</p>
+            {% endif %}
+
+        </div>
+    </section>
+
+</body>
+
+</html>

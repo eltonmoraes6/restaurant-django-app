@@ -2,8 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from Base_App.views import add_category
-from django.shortcuts import redirect
 
 from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             CartPageView, CheckoutPageView, ConfirmOrder,
@@ -11,14 +9,12 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             LogoutView, MenuView, MyOrdersView,
                             OrderSuccessView, RemoveCartItem, SignupView,
                             UserProfileView, add_to_cart,
-                            assign_delivery_person, cms_create, cms_edit,
-                            cms_list, decrease_quantity, delivery_detail,
-                            delivery_list, delivery_person_create,
-                            delivery_person_list, delivery_update,
-                            get_cart_items, increase_quantity, items_create,
-                            items_edit, items_list, logistics_dashboard,
-                            logistics_order_detail, order_list,
-                            update_delivery_status)
+                            assign_delivery_person, category_create,
+                            category_list, cms_create, cms_edit, cms_list,
+                            decrease_quantity, delivery_detail, delivery_list,
+                            delivery_person_create, delivery_person_list,
+                            delivery_update, get_cart_items, increase_quantity,
+                            items_create, items_edit, items_list, order_list)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +25,11 @@ urlpatterns = [
     path("dashboard/items/edit/<int:pk>/", items_edit, name="item_edit"),
 
     path("dashboard/orders/", order_list, name="order_list"),
+    
     #added category urls
-    path("/admin/Base_App/category/add/", items_create, name="category_add"),
-    # ADICIONE ESSA LINHA
-    path("dashboard/category/add/", add_category, name="category_add"),
+    path("dashboard/categories/", category_list, name="category_list"),
+    path("dashboard/categories/add/", category_create, name="category_add"),
+
 
 
     # CMS
