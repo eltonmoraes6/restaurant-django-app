@@ -4,8 +4,9 @@
 
 <section class="layout_padding">
     <div class="container">
-        <h2>Painel Administrativo</h2>
-
+        <div class="heading_container">
+            <h2>Painel Administrativo</h2>
+        </div>
         <!-- STATISTICS CARDS -->
         <div class="row mt-4">
 
@@ -42,9 +43,10 @@
         <hr class="my-4">
 
         <!-- QUICK ADMIN CONTROLS -->
-        <h3 class="mb-3">Ferramentas do Administrador</h3>
-
-        <div class="row mb-4">
+        <div class="heading_container">
+            <h2>Ferramentas do Administrador</h2>
+        </div>
+        <div class="row mb-4 mt-4">
 
             <div class="col-md-3 mb-3">
                 <a href="{% url 'cms_list' %}" class="text-decoration-none h-100 d-block">
@@ -94,9 +96,11 @@
         </div>
 
         <!-- LOGISTICS BLOCK -->
-        <h3 class="mb-3">Logística & Entregas</h3>
+        <div class="heading_container">
+            <h2>Logística & Entregas</h2>
+        </div>
 
-        <div class="row mb-4">
+        <div class="row mb-4 mt-4">
 
             <div class="col-md-4">
                 <a href="{% url 'delivery_list' %}" class="text-decoration-none h-100 d-block">
@@ -140,7 +144,9 @@
         <hr class="my-4">
 
         <!-- LAST ORDERS -->
-        <h3>Últimos 10 Pedidos</h3>
+        <div class="heading_container">
+            <h2>Últimos 10 Pedidos</h2>
+        </div>
 
         <div class="table-responsive">
             <table class="table table-striped mt-3">

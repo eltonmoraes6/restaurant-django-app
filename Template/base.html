@@ -142,12 +142,81 @@
       height: 40px;
       padding: 6px 14px;
     }
+
+    /* Garante que o dropdown se alinhe ao botão */
+    .header_section .dropdown {
+      position: relative;
+    }
+
+    /* Caixa do dropdown */
+    .header_section .dropdown-menu {
+      min-width: 220px;
+      padding: 8px 0;
+      margin-top: 6px;
+      border-radius: 8px;
+      background-color: #2c2c2c;
+      border: 1px solid #444;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    /* Itens do menu */
+    .header_section .dropdown-item {
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    /* Hover consistente */
+    .header_section .dropdown-item:hover {
+      background-color: #3a3a3a;
+      color: #f1c40f;
+    }
+
+    /* Remove foco feio do Bootstrap */
+    .header_section .dropdown-toggle:focus {
+      box-shadow: none;
+    }
+
+    /* Evita quebra visual no botão */
+    .header_section .navbar-btn {
+      white-space: nowrap;
+    }
+
+    /* ==========================
+   STICKY FOOTER FIX
+========================== */
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .site-body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Main content grows and pushes footer down */
+    .site-content {
+      flex: 1;
+    }
+
+    /* Footer stays at bottom without overlapping */
+    .footer_section {
+      margin-top: auto;
+    }
   </style>
 
 
 </head>
 
-<body {% block class %}{% endblock class %}>
+<body {% block class %}{% endblock class %} class="site-body">
+
 
   <!-- header section strats -->
 
@@ -272,7 +341,9 @@
     </div>
     <!-- END CART MODAL -->
 
-    {% block main %}{% endblock main %}
+    <main class="site-content">
+      {% block main %}{% endblock main %}
+    </main>
 
     <!-- footer section -->
     <footer class="footer_section">

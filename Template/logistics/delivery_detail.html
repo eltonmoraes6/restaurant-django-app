@@ -4,15 +4,15 @@
 
 <div class="container mt-4">
 
-    <h2>Entrega do Pedido #{{ delivery.order.id }}</h2>
+    <div class="heading_container">
+        <h2>Entrega do Pedido #{{ delivery.order.id }}</h2>
+    </div>
 
     <p><strong>Status atual:</strong> {{ delivery.get_status_display }}</p>
 
     <hr>
 
-    <!-- ==========================
-         ATUALIZAR STATUS
-    =========================== -->
+
     <h4>Atualizar Status</h4>
 
     <form method="post" action="{% url 'delivery_update' delivery.order.id %}">
@@ -39,9 +39,6 @@
 
     <hr>
 
-    <!-- ==========================
-         ATRIBUIR ENTREGADOR
-    =========================== -->
     <h4>Atribuir Entregador</h4>
 
     <form method="post" action="{% url 'delivery_assign' delivery.order.id %}">
