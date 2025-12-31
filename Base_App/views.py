@@ -109,12 +109,13 @@ def SignupView(request):
 def HomeView(request):
     categories = Category.objects.all()
     items = Items.objects.select_related("Category").all()
-    review = Feedback.objects.all()
+    reviews = Feedback.objects.exclude(Description="").order_by("-id")
+
 
     return render(request, "home.html", {
         "categories": categories,
         "items": items,
-        "review": review
+        "review": reviews
     })
 
 
