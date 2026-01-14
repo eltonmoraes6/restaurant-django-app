@@ -212,6 +212,7 @@
     }
 
     .about_section {
+      background-color: #fff;
       color: #000;
     }
   </style>
@@ -268,8 +269,8 @@
             {% if user.is_authenticated %}
 
             <div class="dropdown">
-              <button class="btn btn-light dropdown-toggle navbar-btn" data-toggle="dropdown">
-                <i class="fa fa-user"></i> {{ user.username }}
+              <button class="btn btn-light dropdown-toggle navbar-btn" data-toggle="dropdown" >
+                <i style="padding-right: 5px" class="fa fa-user"></i> {{ user.username }}
               </button>
 
               <div class="dropdown-menu dropdown-menu-right">
@@ -291,9 +292,10 @@
               </div>
             </div>
 
-            <button id="cart-button" class="btn btn-primary navbar-btn ml-3">
-              <i class="fa fa-shopping-cart"></i>
-              Carrinho <span id="cart-count" class="badge badge-dark">{{ cart_count }}</span>
+            <button id="cart-button" class="btn btn-primary navbar-btn ml-3" >
+              <i style="padding-right: 5px" class="fa fa-shopping-cart"></i>
+              <span style="padding-right: 5px">Carrinho</span>
+               <span  id="cart-count" class="badge badge-dark"  >{{ cart_count }}</span>
             </button>
 
             {% else %}
@@ -466,10 +468,12 @@
 
       });
 
+
+  
       document.addEventListener("DOMContentLoaded", function () {
+
         document.querySelectorAll(".add-to-cart").forEach(button => {
           button.addEventListener("click", function () {
-            const itemId = this.dataset.itemId;
 
             fetch("{% url 'add_to_cart' %}", {
               method: "POST",
@@ -477,15 +481,19 @@
                 "X-CSRFToken": "{{ csrf_token }}",
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              body: `item_id=${itemId}`
+              body: `item_id=${this.dataset.itemId}`
             })
-              .then(res => res.json())
-              .then(data => {
-                alert(data.message);
-              })
-              .catch(() => alert("Erro ao adicionar ao carrinho"));
+            .then(res => res.json())
+            .then(data => {
+              if (data.cart_count !== undefined) {
+                document.getElementById("cart-count").textContent = data.cart_count;
+              }
+            })
+            .catch(() => console.error("Cart error"));
+
           });
         });
+
       });
 
 

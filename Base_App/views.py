@@ -25,24 +25,25 @@ from .forms import CategoryForm, ItemsForm, PageSectionForm
 def add_to_cart(request):
     if request.method == "POST":
         if not request.user.is_authenticated:
-            return JsonResponse({"message": "Please log in to add items to cart."}, status=403)
+            return JsonResponse({"message": "Login required"}, status=403)
 
         item_id = request.POST.get("item_id")
         item = get_object_or_404(Items, id=item_id)
 
         cart_item, created = Cart.objects.get_or_create(
             user=request.user,
-            item=item,
+            item=item
         )
 
-        if created:
-            cart_item.quantity = 1
-        else:
-            cart_item.quantity += 1
-
+        cart_item.quantity = cart_item.quantity + 1 if not created else 1
         cart_item.save()
 
-        return JsonResponse({"message": f"{item.Item_name} added to cart!"})
+        cart_count = Cart.objects.filter(user=request.user).count()
+
+        return JsonResponse({
+            "message": f"{item.Item_name} added to cart!",
+            "cart_count": cart_count
+        })
 
     return JsonResponse({"message": "Invalid request"}, status=400)
 
