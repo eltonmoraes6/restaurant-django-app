@@ -1,9 +1,9 @@
-# 🍽️ **Restaurant Web Application – Manual Completo para Usuário, Administrador e Desenvolvedor**
+# 🍽️ **Sabor IFS (Aplicação de Restaurante) – Manual Completo para Usuário, Administrador e Desenvolvedor**
 
 **Versão:** 1.5.0
 **Framework:** Django 5.2
 **Público:** Usuários, Administradores, Desenvolvedores
-**Autor:** Elton Moraes
+**Autores:** Adriny Safira, Cauan Ugino, Cleiton Matheus, Cristiano Brito, Elton Moraes
 
 ---
 
@@ -14,7 +14,6 @@
 2. [Estrutura da Aplicação](#2-estrutura-da-aplicação)
 
 3. [Guia do Usuário](#3-guia-do-usuário)
-
    - Home
    - Menu
    - Carrinho
@@ -24,8 +23,7 @@
    - Feedback
    - Reserva de Mesas
 
-4. [Guia de Logística (NOVO)](#4-guia-de-logística-novo)
-
+4. [Guia de Logística ](#4-guia-de-logística)
    - Lista de Entregas
    - Detalhes da Entrega
    - Atualização de Status
@@ -34,8 +32,7 @@
 
 5. [Guia do Administrador](#5-guia-do-administrador)
 
-6. [Guia do Desenvolvedor (COMPLETO)](#6-guia-do-desenvolvedor-completo)
-
+6. [Guia do Desenvolvedor](#6-guia-do-desenvolvedor)
    - Instalação
    - Estrutura do Projeto
    - Modelos
@@ -45,25 +42,25 @@
    - Debug
    - Deploy
 
-7. [Imagens](#7-dicas-para-adicionar-imagens)
+7. [Imagens](#7-imagens)
 
 8. [Conclusão](#8-conclusão)
 
 ---
 
-# ⭐ **1. Introdução**
+# **1. Introdução**
 
 O **Restaurant Web Application** é um sistema moderno e completo para restaurantes com:
 
 🍔 Cardápio dinâmico <br>
 🛒 Carrinho inteligente <br>
 💳 Finalização de pedidos <br>
-📦 Rastreamento de entregas (NOVO) <br>
-🚴‍♂️ Sistema de entregadores (NOVO) <br>
+📦 Rastreamento de entregas <br>
+🚴‍♂️ Sistema de entregadores <br>
 📱 Painel do cliente <br>
 🛠 Painel administrativo <br>
 📅 Reserva de mesas <br>
-⭐ Envio de feedback <br>
+Envio de feedback <br>
 
 O sistema foi expandido para incluir **gestão logística completa**, permitindo:
 
@@ -76,7 +73,7 @@ O sistema foi expandido para incluir **gestão logística completa**, permitindo
 
 ---
 
-# ⭐ **2. Estrutura da Aplicação**
+# **2. Estrutura da Aplicação**
 
 A aplicação possui **três níveis de acesso**:
 
@@ -123,13 +120,13 @@ Inclui:
 - Itens do cardápio
 - Feedback
 - Reservas
-- Gestão logística (NOVO)
-- Entregadores (NOVO)
-- Entregas e status (NOVO)
+- Gestão logística
+- Entregadores
+- Entregas e status
 
 ---
 
-# ⭐ **3. GUIA DO USUÁRIO**
+# **3. GUIA DO USUÁRIO**
 
 Aprenda a navegar pelo site.
 
@@ -145,11 +142,27 @@ Contém:
 - Depoimentos
 - Botões de ação rápida
 
-![Menu Page](images/menu.png)
+![Home Page 1](images/inicio-1.png)
+![Home Page 2](images/inicio-2.png)
+![Home Page 3](images/inicio-3.png)
+![Home Page 4](images/inicio-4.png)
 
 ---
 
-## 📍 **3.2 – Menu**
+## 📍 **3.2 – Entrar**
+
+Formulário para acessar a aplicação
+![Entrar](images/login.png)
+
+---
+
+## 📍 **3.3 – Cadastrar**
+
+Formulário para fazer cadastro para ter acesso a aplicação
+
+## ![Cadastrar](images/register.png)
+
+## 📍 **3.4 – Menu**
 
 A página exibe:
 
@@ -169,7 +182,7 @@ Como usar:
 
 ---
 
-## 🛒 **3.3 – Carrinho**
+## 🛒 **3.5 – Carrinho**
 
 Elementos na página:
 
@@ -190,7 +203,7 @@ Funções:
 
 ---
 
-## 💳 **3.4 – Checkout**
+## 💳 **3.6 – Checkout**
 
 Exibe:
 
@@ -210,7 +223,7 @@ Ao finalizar:
 
 ---
 
-## 📦 **3.5 – Resumo do Pedido**
+## 📦 **3.7 – Resumo do Pedido**
 
 Mostra:
 
@@ -224,7 +237,7 @@ Mostra:
 
 ---
 
-## 📑 **3.6 – Meus Pedidos**
+## 📑 **3.8 – Meus Pedidos**
 
 Histórico completo.
 
@@ -232,7 +245,7 @@ Histórico completo.
 
 ---
 
-## 👤 **3.7 – Perfil do Usuário**
+## 👤 **3.9 – Perfil do Usuário**
 
 Inclui:
 
@@ -245,7 +258,7 @@ Inclui:
 
 ---
 
-## ⭐ **3.8 – Feedback**
+## **3.10 – Feedback**
 
 Formulário com:
 
@@ -258,7 +271,7 @@ Formulário com:
 
 ---
 
-## 🍽 **3.9 – Reservas**
+## 🍽 **3.11 – Reservas**
 
 Formulário simples:
 
@@ -266,7 +279,7 @@ Formulário simples:
 
 ---
 
-# ⭐ **4. GUIA DE LOGÍSTICA (NOVO)**
+# **4. GUIA DE LOGÍSTICA**
 
 Grande novidade do sistema.
 
@@ -276,7 +289,7 @@ Grande novidade do sistema.
 
 URL:
 `/dashboard/deliveries/`
-
+![Lista de Entregas](images/meus-pedidos-lista.png)
 Exibe:
 
 - número do pedido
@@ -295,7 +308,7 @@ Funções:
 
 URL:
 `/dashboard/delivery/<id>/`
-
+![Detalhes da Entrega](images/ger-entrega.png)
 Exibe:
 
 - dados do pedido
@@ -316,7 +329,7 @@ Permite ações:
 
 URL POST:
 `/dashboard/delivery/<id>/update/`
-
+![Atualizar status da entrega](images/atualizar-status-pedido.png)
 Status disponíveis:
 
 - pendente
@@ -337,7 +350,7 @@ A página contém:
 URL POST:
 
 `/dashboard/delivery/<id>/assign/`
-
+![Atualizar status do entregador](images/atualizar-status-pedido.png)
 Selecione:
 
 - nenhum entregador
@@ -351,9 +364,10 @@ Define o responsável pela entrega.
 
 URL:
 `/dashboard/delivery-person/`
-
+![Entregadores](images/entregadores.png)
 URL para adicionar:
 `/dashboard/delivery-person/add/`
+![Addicionar entregador](images/add-entregador.png)
 
 Campos:
 
@@ -362,13 +376,14 @@ Campos:
 
 ---
 
-# ⭐ **5. GUIA DO ADMINISTRADOR**
+# **5. GUIA DO ADMINISTRADOR**
 
 Painel administrativo completo.
+![Admin](images/admin.png)
 
 ---
 
-# ⭐ **6. DEVELOPER GUIDE (COMPLETO)**
+# **6. GUIA DO DESENVOLVEDOR**
 
 ## 🛠 **6.1 – Instalação**
 
@@ -459,9 +474,9 @@ restaurant-django-app/
 - OrderItem – itens do pedido
 - BookTable – reserva de mesa
 - Feedback – avaliações
-- Delivery – logística da entrega ✅
-- DeliveryPerson – entregadores ✅
-- CMSContent / PageSection – conteúdo dinâmico do site ✅
+- Delivery – logística da entrega
+- DeliveryPerson – entregadores
+- CMSContent / PageSection – conteúdo dinâmico do site
 
 ---
 
@@ -523,7 +538,6 @@ Cada página pode conter **múltiplas seções**, como:
 1. Acesse: `/cms/`
 2. Clique em **Adicionar Nova Seção**
 3. Escolha:
-
    - Página (home, about, footer…)
    - Seção (ex: hero, description, footer_about)
 
@@ -608,3 +622,60 @@ Execute:
 ```bash
 gunicorn Resturant_Project.wsgi
 ```
+
+# **7. IMAGENS**
+
+![alt text](images/inicio-1.png)
+![alt text](images/inicio-2.png)
+![alt text](images/inicio-3.png)
+![alt text](images/inicio-4.png)
+
+![navigation_menu](images/menu.png)
+
+![alt text](images/login.png)
+![alt text](images/register.png)
+
+![navigation_menu](images/menu-2.png)
+![navigation_menu](images/menu-3.png)
+
+![alt text](images/cart-popup.png)
+![alt text](images/cart.png)
+![alt text](images/checkout.png)
+![alt text](images/order_summary.png)
+![alt text](images/my_orders_page.png)
+![alt text](images/meus-pedidos-lista.png)
+
+![alt text](images/nosso-cardapio.png)
+![alt text](images/sobre.png)
+![alt text](images/reservar-mesa.png)
+![alt text](images/table_booking.png)
+![alt text](images/feedback.png)
+![alt text](images/feedback_form.png)
+
+![alt text](images/menu-3.png)
+![alt text](images/profile.png)
+![alt text](images/my_orders_page.png)
+
+![alt text](images/admin_dashboard.png)
+![alt text](images/admin_dashboard-02.png)
+
+![alt text](images/cms.png)
+![alt text](images/produtos-lista.png)
+![alt text](images/add-produto.png)
+![alt text](images/add-categoria.png)
+![alt text](images/ger-pedidos.png)
+![alt text](images/ger-entrega.png)
+![alt text](images/entregadores.png)
+![alt text](images/add-entregador.png)
+
+![alt text](images/admin.png)
+
+# **8. CONCLUSÃO**
+
+O Sabor IFS foi desenvolvido com o objetivo de oferecer uma solução completa e integrada para a gestão de restaurantes, unindo praticidade, organização e eficiência em um único sistema. Ao longo deste manual, foram apresentados os principais recursos da aplicação, contemplando as necessidades de usuários, administradores e desenvolvedores, de forma clara e estruturada.
+
+Para o usuário final, a aplicação disponibiliza funcionalidades essenciais como visualização do cardápio, gerenciamento do carrinho, finalização de pedidos, acompanhamento do histórico, envio de feedbacks e realização de reservas de mesas, proporcionando uma experiência intuitiva e acessível. Já para o administrador, o sistema oferece um painel robusto para controle de produtos, categorias, pedidos, avaliações, reservas e logística, incluindo o gerenciamento de entregas e entregadores, garantindo maior organização e controle operacional.
+
+Do ponto de vista técnico, o projeto foi construído utilizando o framework Django 5.2, seguindo boas práticas de desenvolvimento, com uma arquitetura modular, controle de acesso por níveis de permissão e integração de um CMS, que permite a atualização dinâmica de conteúdos sem a necessidade de alterações diretas no código. O guia do desenvolvedor fornece orientações completas para instalação, manutenção, testes e deploy, facilitando a continuidade e evolução do sistema.
+
+Dessa forma, o Sabor IFS apresenta-se como uma aplicação estável, escalável e preparada para uso em ambientes reais, além de servir como uma base sólida para futuras melhorias e expansões. Este manual tem como finalidade apoiar o uso correto da plataforma e contribuir para a sua manutenção e desenvolvimento contínuo.

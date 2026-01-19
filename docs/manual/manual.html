@@ -1,0 +1,1276 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>manual</title>
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+	<style>
+		body {
+			font-family:
+				-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu,
+				sans-serif;
+			font-size: 15px;
+			line-height: 1.7;
+			color: #2e2e2e;
+			background-color: #f9fafb;
+			margin: 0;
+			padding: 0;
+		}
+
+		main {
+			max-width: 1100px;
+			margin: auto;
+			padding: 32px 24px;
+			background: #ffffff;
+		}
+
+		#code-csp-warning {
+			position: fixed;
+			top: 0;
+			right: 0;
+			color: white;
+			margin: 16px;
+			text-align: center;
+			font-size: 12px;
+			font-family: sans-serif;
+			background-color: #444444;
+			cursor: pointer;
+			padding: 6px;
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+		}
+
+		#code-csp-warning:hover {
+			text-decoration: none;
+			background-color: #007acc;
+			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+		}
+
+		body.scrollBeyondLastLine {
+			margin-bottom: calc(100vh - 22px);
+		}
+
+		body.showEditorSelection .code-line {
+			position: relative;
+		}
+
+		body.showEditorSelection .code-active-line:before,
+		body.showEditorSelection .code-line:hover:before {
+			content: '';
+			display: block;
+			position: absolute;
+			top: 0;
+			left: -12px;
+			height: 100%;
+		}
+
+		body.showEditorSelection li.code-active-line:before,
+		body.showEditorSelection li.code-line:hover:before {
+			left: -30px;
+		}
+
+		.vscode-light.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(0, 0, 0, 0.15);
+		}
+
+		.vscode-light.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(0, 0, 0, 0.4);
+		}
+
+		.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
+
+		.vscode-dark.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(255, 255, 255, 0.4);
+		}
+
+		.vscode-dark.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(255, 255, 255, 0.6);
+		}
+
+		.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
+
+		.vscode-high-contrast.showEditorSelection .code-active-line:before {
+			border-left: 3px solid rgba(255, 160, 0, 0.7);
+		}
+
+		.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+			border-left: 3px solid rgba(255, 160, 0, 1);
+		}
+
+		.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+			border-left: none;
+		}
+
+		img {
+			max-width: 100%;
+			height: auto;
+			border-radius: 10px;
+			margin: 12px 0;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+		}
+
+		.image-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 16px;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		a:focus,
+		input:focus,
+		select:focus,
+		textarea:focus {
+			outline: 1px solid -webkit-focus-ring-color;
+			outline-offset: -1px;
+		}
+
+		hr {
+			border: 0;
+			height: 2px;
+			border-bottom: 2px solid;
+		}
+
+		h1,
+		h2,
+		h3,
+		h4 {
+			font-weight: 600;
+			color: #1f2937;
+			margin-top: 2.2rem;
+		}
+
+		h1 {
+			font-size: 2rem;
+			border-bottom: 3px solid #f1c40f;
+			padding-bottom: 10px;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			border-left: 5px solid #f1c40f;
+			padding-left: 12px;
+		}
+
+		h3 {
+			font-size: 1.2rem;
+			color: #374151;
+		}
+
+		p {
+			margin: 14px 0;
+			color: #374151;
+		}
+
+		ul,
+		ol {
+			padding-left: 22px;
+			margin: 12px 0;
+		}
+
+		li {
+			margin-bottom: 6px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px 0;
+			font-size: 14px;
+		}
+
+		table>thead>tr>th {
+			text-align: left;
+			border-bottom: 1px solid;
+		}
+
+		table>thead>tr>th,
+		table>thead>tr>td,
+		table>tbody>tr>th,
+		table>tbody>tr>td {
+			padding: 5px 10px;
+		}
+
+		table>tbody>tr+tr>td {
+			padding: 10px 12px;
+			border-top: 1px solid;
+		}
+
+		blockquote {
+			background: #fef3c7;
+			border-left: 6px solid #f1c40f;
+			padding: 14px 18px;
+			border-radius: 8px;
+			color: #78350f;
+		}
+
+		code {
+			font-family:
+				Menlo, Monaco, Consolas, 'Droid Sans Mono', 'Courier New', monospace,
+				'Droid Sans Fallback';
+			font-size: 1em;
+			line-height: 1.357em;
+		}
+
+		body.wordWrap pre {
+			white-space: pre-wrap;
+		}
+
+		pre {
+			background: #0f172a;
+			color: #e5e7eb;
+			border-radius: 10px;
+			padding: 18px;
+			font-size: 14px;
+			overflow-x: auto;
+		}
+
+		pre:not(.hljs),
+		pre.hljs code>div {
+			padding: 16px;
+			border-radius: 3px;
+			overflow: auto;
+		}
+
+		pre code {
+			color: var(--vscode-editor-foreground);
+			tab-size: 4;
+		}
+
+		/** Theming */
+
+		.vscode-light pre {
+			background-color: rgba(220, 220, 220, 0.4);
+		}
+
+		.vscode-dark pre {
+			background-color: rgba(10, 10, 10, 0.4);
+		}
+
+		.vscode-high-contrast pre {
+			background-color: rgb(0, 0, 0);
+		}
+
+		.vscode-high-contrast h1 {
+			border-color: rgb(0, 0, 0);
+		}
+
+		.vscode-light table>thead>tr>th {
+			border-color: rgba(0, 0, 0, 0.69);
+		}
+
+		.vscode-dark table>thead>tr>th {
+			border-color: rgba(255, 255, 255, 0.69);
+		}
+
+		.vscode-light h1,
+		.vscode-light hr,
+		.vscode-light table>tbody>tr+tr>td {
+			border-color: rgba(0, 0, 0, 0.18);
+		}
+
+		.vscode-dark h1,
+		.vscode-dark hr,
+		.vscode-dark table>tbody>tr+tr>td {
+			border-color: rgba(255, 255, 255, 0.18);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				font-size: 14px;
+			}
+
+			h1 {
+				font-size: 1.6rem;
+			}
+
+			h2 {
+				font-size: 1.3rem;
+			}
+
+			main {
+				padding: 20px 14px;
+			}
+		}
+	</style>
+
+	<style>
+		/* Tomorrow Theme */
+		/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+		/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+		/* Tomorrow Comment */
+		.hljs-comment,
+		.hljs-quote {
+			color: #8e908c;
+		}
+
+		/* Tomorrow Red */
+		.hljs-variable,
+		.hljs-template-variable,
+		.hljs-tag,
+		.hljs-name,
+		.hljs-selector-id,
+		.hljs-selector-class,
+		.hljs-regexp,
+		.hljs-deletion {
+			color: #c82829;
+		}
+
+		/* Tomorrow Orange */
+		.hljs-number,
+		.hljs-built_in,
+		.hljs-builtin-name,
+		.hljs-literal,
+		.hljs-type,
+		.hljs-params,
+		.hljs-meta,
+		.hljs-link {
+			color: #f5871f;
+		}
+
+		/* Tomorrow Yellow */
+		.hljs-attribute {
+			color: #eab700;
+		}
+
+		/* Tomorrow Green */
+		.hljs-string,
+		.hljs-symbol,
+		.hljs-bullet,
+		.hljs-addition {
+			color: #718c00;
+		}
+
+		/* Tomorrow Blue */
+		.hljs-title,
+		.hljs-section {
+			color: #4271ae;
+		}
+
+		/* Tomorrow Purple */
+		.hljs-keyword,
+		.hljs-selector-tag {
+			color: #8959a8;
+		}
+
+		.hljs {
+			display: block;
+			overflow-x: auto;
+			color: #4d4d4c;
+			padding: 0.5em;
+		}
+
+		.hljs-emphasis {
+			font-style: italic;
+		}
+
+		.hljs-strong {
+			font-weight: bold;
+		}
+	</style>
+
+	<style>
+		/*
+ * Markdown PDF CSS
+ */
+
+		body {
+			font-family:
+				-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu',
+				'Droid Sans', sans-serif, 'Meiryo';
+			padding: 0 12px;
+		}
+
+		pre {
+			background-color: #f8f8f8;
+			border: 1px solid #cccccc;
+			border-radius: 3px;
+			overflow-x: auto;
+			white-space: pre-wrap;
+			overflow-wrap: break-word;
+		}
+
+		pre:not(.hljs) {
+			padding: 23px;
+			line-height: 19px;
+		}
+
+		blockquote {
+			background: rgba(127, 127, 127, 0.1);
+			border-color: rgba(0, 122, 204, 0.5);
+		}
+
+		.emoji {
+			height: 1.4em;
+		}
+
+		code {
+			font-size: 14px;
+			line-height: 19px;
+		}
+
+		/* for inline code */
+		:not(pre):not(.hljs)>code {
+			color: #c9ae75;
+			/* Change the old color so it seems less like an error */
+			font-size: inherit;
+		}
+
+		/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+		.page {
+			page-break-after: always;
+		}
+	</style>
+
+	<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+	<main>
+		<script>
+			mermaid.initialize({
+				startOnLoad: true,
+				theme:
+					document.body.classList.contains('vscode-dark') ||
+						document.body.classList.contains('vscode-high-contrast')
+						? 'dark'
+						: 'default',
+			});
+		</script>
+		<h1
+			id="%F0%9F%8D%BD%EF%B8%8F-sabor-ifs-aplica%C3%A7%C3%A3o-de-restaurante-%E2%80%93-manual-completo-para-usu%C3%A1rio-administrador-e-desenvolvedor">
+			🍽️
+			<strong>Sabor IFS (Aplicação de Restaurante) – Manual Completo para Usuário,
+				Administrador e Desenvolvedor</strong>
+		</h1>
+		<p>
+			<strong>Versão:</strong> 1.5.0 <strong>Framework:</strong> Django 5.2
+			<strong>Público:</strong> Usuários, Administradores, Desenvolvedores
+			<strong>Autores:</strong> Adriny Safira, Cauan Ugino, Cleiton Matheus,
+			Cristiano Brito, Elton Moraes
+		</p>
+		<hr />
+		<h1 id="%F0%9F%93%9A-%C3%ADndice-geral">
+			📚 <strong>Índice Geral</strong>
+		</h1>
+		<ol>
+			<li>
+				<p><a href="#1-introdu%C3%A7%C3%A3o">Introdução</a></p>
+			</li>
+			<li>
+				<p>
+					<a href="#2-estrutura-da-aplica%C3%A7%C3%A3o">Estrutura da Aplicação</a>
+				</p>
+			</li>
+			<li>
+				<p><a href="#3-guia-do-usu%C3%A1rio">Guia do Usuário</a></p>
+				<ul>
+					<li>Home</li>
+					<li>Menu</li>
+					<li>Carrinho</li>
+					<li>Checkout</li>
+					<li>Pedidos</li>
+					<li>Perfil</li>
+					<li>Feedback</li>
+					<li>Reserva de Mesas</li>
+				</ul>
+			</li>
+			<li>
+				<p><a href="#4-guia-de-log%C3%ADstica">Guia de Logística </a></p>
+				<ul>
+					<li>Lista de Entregas</li>
+					<li>Detalhes da Entrega</li>
+					<li>Atualização de Status</li>
+					<li>Atribuição de Entregadores</li>
+					<li>Cadastro de Entregadores</li>
+				</ul>
+			</li>
+			<li>
+				<p><a href="#5-guia-do-administrador">Guia do Administrador</a></p>
+			</li>
+			<li>
+				<p><a href="#6-guia-do-desenvolvedor">Guia do Desenvolvedor</a></p>
+				<ul>
+					<li>Instalação</li>
+					<li>Estrutura do Projeto</li>
+					<li>Modelos</li>
+					<li>Rotas</li>
+					<li>APIs</li>
+					<li>Testes</li>
+					<li>Debug</li>
+					<li>Deploy</li>
+				</ul>
+			</li>
+			<li>
+				<p><a href="#7-imagens">Imagens</a></p>
+			</li>
+			<li>
+				<p><a href="#8-conclus%C3%A3o">Conclusão</a></p>
+			</li>
+		</ol>
+		<hr />
+		<h1 id="1-introdu%C3%A7%C3%A3o"><strong>1. Introdução</strong></h1>
+		<p>
+			O <strong>Restaurant Web Application</strong> é um sistema moderno e
+			completo para restaurantes com:
+		</p>
+		<p>
+			🍔 Cardápio dinâmico <br />
+			🛒 Carrinho inteligente <br />
+			💳 Finalização de pedidos <br />
+			📦 Rastreamento de entregas <br />
+			🚴‍♂️ Sistema de entregadores <br />
+			📱 Painel do cliente <br />
+			🛠 Painel administrativo <br />
+			📅 Reserva de mesas <br />
+			Envio de feedback <br />
+		</p>
+		<p>
+			O sistema foi expandido para incluir
+			<strong>gestão logística completa</strong>, permitindo:
+		</p>
+		<ul>
+			<li>cadastro de entregadores</li>
+			<li>controle de entregas</li>
+			<li>atualização de status</li>
+			<li>atribuição manual de entregadores</li>
+			<li>detalhes completos das entregas</li>
+			<li>notas e rastreamento</li>
+		</ul>
+		<hr />
+		<h1 id="2-estrutura-da-aplica%C3%A7%C3%A3o">
+			<strong>2. Estrutura da Aplicação</strong>
+		</h1>
+		<p>A aplicação possui <strong>três níveis de acesso</strong>:</p>
+		<hr />
+		<h2 id="%F0%9F%94%93-p%C3%A1ginas-p%C3%BAblicas">
+			🔓 <strong>Páginas Públicas</strong>
+		</h2>
+		<p>Qualquer usuário pode acessar:</p>
+		<ul>
+			<li>Home</li>
+			<li>Menu</li>
+			<li>Sobre</li>
+			<li>Feedback</li>
+			<li>Reservas</li>
+			<li>Contato</li>
+			<li>Login / Cadastro</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%94%90-p%C3%A1ginas-do-usu%C3%A1rio-autenticado">
+			🔐 <strong>Páginas do Usuário Autenticado</strong>
+		</h2>
+		<p>Usuário logado pode acessar:</p>
+		<ul>
+			<li>Carrinho</li>
+			<li>Checkout</li>
+			<li>Meus Pedidos</li>
+			<li>Perfil</li>
+			<li>Logout</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%9B%A0-p%C3%A1ginas-administrativas">
+			🛠 <strong>Páginas Administrativas</strong>
+		</h2>
+		<p>Requer:</p>
+		<pre class="hljs"><code><div>user.is_staff = <span class="hljs-literal">True</span>
+</div></code></pre>
+		<p>Inclui:</p>
+		<ul>
+			<li>Dashboard</li>
+			<li>Pedidos</li>
+			<li>Itens do cardápio</li>
+			<li>Feedback</li>
+			<li>Reservas</li>
+			<li>Gestão logística</li>
+			<li>Entregadores</li>
+			<li>Entregas e status</li>
+		</ul>
+		<hr />
+		<h1 id="3-guia-do-usu%C3%A1rio"><strong>3. GUIA DO USUÁRIO</strong></h1>
+		<p>Aprenda a navegar pelo site.</p>
+		<hr />
+		<h2 id="%F0%9F%93%8D-31-%E2%80%93-home">
+			📍 <strong>3.1 – Home</strong>
+		</h2>
+		<p>Contém:</p>
+		<ul>
+			<li>Banner principal</li>
+			<li>Destaques do restaurante</li>
+			<li>Pratos populares</li>
+			<li>Depoimentos</li>
+			<li>Botões de ação rápida</li>
+		</ul>
+
+
+		<div class="image-grid">
+			<img src="../images/inicio-1.png" alt="Home Page 1" />
+		</div>
+
+		<div class="image-grid">
+			<img src="../images/inicio-2.png" alt="Home Page 2" />
+		</div>
+
+		<div class="image-grid">
+			<img src="../images/inicio-3.png" alt="Home Page 3" />
+		</div>
+
+		<div class="image-grid">
+			<img src="../images/inicio-4.png" alt="Home Page 4" />
+		</div>
+
+		<hr />
+		<h2 id="%F0%9F%93%8D-32-%E2%80%93-entrar">
+			📍 <strong>3.2 – Entrar</strong>
+		</h2>
+		<p>
+			Formulário para acessar a aplicação
+		<div class="image-grid">
+			<img src="../images/login.png" alt="Entrar" />
+		</div>
+		</p>
+		<hr />
+		<h2 id="%F0%9F%93%8D-33-%E2%80%93-cadastrar">
+			📍 <strong>3.3 – Cadastrar</strong>
+		</h2>
+		<p>Formulário para fazer cadastro para ter acesso a aplicação</p>
+		<h2 id="cadastrar">
+		</h2>
+		<div class="image-grid">
+			<img src="../images/register.png" alt="Cadastrar" />
+		</div>
+		<h2 id="%F0%9F%93%8D-34-%E2%80%93-menu">
+			📍 <strong>3.4 – Menu</strong>
+		</h2>
+		<p>A página exibe:</p>
+		<ul>
+			<li>Foto</li>
+			<li>Título</li>
+			<li>Descrição</li>
+			<li>Preço</li>
+			<li>Botão “Adicionar ao Carrinho”</li>
+		</ul>
+		<div class="image-grid"><img src="../images/menu-3.png" alt="navigation_menu" /></div>
+		<p>Como usar:</p>
+		<ol>
+			<li>Role pela lista de pratos</li>
+			<li>Clique em <strong>Adicionar ao Carrinho</strong></li>
+			<li>Recebe feedback visual de confirmação</li>
+		</ol>
+		<hr />
+		<h2 id="%F0%9F%9B%92-35-%E2%80%93-carrinho">
+			🛒 <strong>3.5 – Carrinho</strong>
+		</h2>
+		<p>Elementos na página:</p>
+		<ul>
+			<li>lista de itens</li>
+			<li>quantidades</li>
+			<li>preço total</li>
+			<li>botões para remover</li>
+			<li>botões para aumentar/diminuir</li>
+		</ul>
+		<div class="image-grid"><img src="../images/cart.png" alt="cart_page" /></div>
+		<p>Funções:</p>
+		<ul>
+			<li>➕ aumentar quantidade</li>
+			<li>➖ diminuir quantidade</li>
+			<li>❌ remover item</li>
+			<li>✔ seguir para o checkout</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%92%B3-36-%E2%80%93-checkout">
+			💳 <strong>3.6 – Checkout</strong>
+		</h2>
+		<p>Exibe:</p>
+		<ul>
+			<li>resumo do pedido</li>
+			<li>total final</li>
+			<li>itens e quantidades</li>
+			<li>botão “Finalizar Pedido”</li>
+		</ul>
+		<div class="image-grid"><img src="../images/checkout.png" alt="checkout_page" /></div>
+		<p>Ao finalizar:</p>
+		<ul>
+			<li>cria <code>Order</code></li>
+			<li>cria <code>OrderItem</code></li>
+			<li>limpa carrinho</li>
+			<li>redireciona para o resumo</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%93%A6-37-%E2%80%93-resumo-do-pedido">
+			📦 <strong>3.7 – Resumo do Pedido</strong>
+		</h2>
+		<p>Mostra:</p>
+		<ul>
+			<li>ID</li>
+			<li>data</li>
+			<li>itens</li>
+			<li>total</li>
+			<li>status</li>
+		</ul>
+		<div class="image-grid">
+			<img src="../images/order_summary.png" alt="order_summary" />
+		</div>
+
+		<hr />
+		<h2 id="%F0%9F%93%91-38-%E2%80%93-meus-pedidos">
+			📑 <strong>3.8 – Meus Pedidos</strong>
+		</h2>
+		<p>Histórico completo.</p>
+		<div class="image-grid">
+			<img src="../images/my_orders_page.png" alt="my_orders_page" />
+		</div>
+		<hr />
+		<h2 id="%F0%9F%91%A4-39-%E2%80%93-perfil-do-usu%C3%A1rio">
+			👤 <strong>3.9 – Perfil do Usuário</strong>
+		</h2>
+		<p>Inclui:</p>
+		<ul>
+			<li>nome</li>
+			<li>email</li>
+			<li>data do cadastro</li>
+			<li>total de pedidos</li>
+		</ul>
+		<div class="image-grid">
+			<img src="../images/profile.png" alt="profile_page" />
+		</div>
+
+		<hr />
+		<h2 id="310-%E2%80%93-feedback"><strong>3.10 – Feedback</strong></h2>
+		<p>Formulário com:</p>
+		<ul>
+			<li>nome</li>
+			<li>nota</li>
+			<li>mensagem</li>
+			<li>foto opcional</li>
+		</ul>
+		<div class="image-grid">
+			<img src="../images/feedback_form.png" alt="feedback_form" />
+		</div>
+		<hr />
+		<h2 id="%F0%9F%8D%BD-311-%E2%80%93-reservas">
+			🍽 <strong>3.11 – Reservas</strong>
+		</h2>
+		<p>Formulário simples:</p>
+		<div class="image-grid">
+			<img src="../images/table_booking.png" alt="table_booking" />
+		</div>
+		<hr />
+		<h1 id="4-guia-de-log%C3%ADstica">
+			<strong>4. GUIA DE LOGÍSTICA</strong>
+		</h1>
+		<p>Grande novidade do sistema.</p>
+		<hr />
+		<h2 id="%F0%9F%9A%9A-41-%E2%80%93-lista-de-entregas">
+			🚚 <strong>4.1 – Lista de Entregas</strong>
+		</h2>
+		<p>
+			URL:
+			<code>/dashboard/deliveries/</code>
+		<div class="image-grid">
+			<img src="../images/meus-pedidos-lista.png" alt="Lista de Entregas" />
+		</div>
+		Exibe:
+		</p>
+		<ul>
+			<li>número do pedido</li>
+			<li>status atual</li>
+			<li>entregador responsável</li>
+			<li>botão &quot;Detalhes&quot;</li>
+		</ul>
+		<p>Funções:</p>
+		<ul>
+			<li>visualizar todas as entregas</li>
+			<li>acessar cada pedido individual</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%93%84-42-%E2%80%93-detalhes-da-entrega">
+			📄 <strong>4.2 – Detalhes da Entrega</strong>
+		</h2>
+		<p>
+			URL:
+			<code>/dashboard/delivery/&lt;id&gt;/</code>
+		<div class="image-grid">
+			<img src="../images/ger-entrega.png" alt="Detalhes da Entrega" />
+		</div>
+		Exibe:
+		</p>
+		<ul>
+			<li>dados do pedido</li>
+			<li>status</li>
+			<li>histórico</li>
+			<li>notas</li>
+			<li>entregador atual</li>
+		</ul>
+		<p>Permite ações:</p>
+		<ul>
+			<li>alterar status</li>
+			<li>adicionar notas</li>
+			<li>atribuir entregador</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%94%84-43-%E2%80%93-atualizar-status-da-entrega">
+			🔄 <strong>4.3 – Atualizar Status da Entrega</strong>
+		</h2>
+		<p>
+			URL POST:
+			<code>/dashboard/delivery/&lt;id&gt;/update/</code>
+		<div class="image-grid">
+			<img src="../images/atualizar-status-pedido.png" alt="Atualizar status da entrega" />
+		</div>
+		Status disponíveis:
+		</p>
+		<ul>
+			<li>pendente</li>
+			<li>em rota</li>
+			<li>entregue</li>
+			<li>cancelado</li>
+		</ul>
+		<p>A página contém:</p>
+		<ul>
+			<li>dropdown de status</li>
+			<li>textarea para notas</li>
+			<li>botão salvar</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%A7%8D%E2%80%8D%E2%99%82%EF%B8%8F-44-%E2%80%93-atribuir-entregador">
+			🧍‍♂️ <strong>4.4 – Atribuir Entregador</strong>
+		</h2>
+		<p>URL POST:</p>
+		<p>
+			<code>/dashboard/delivery/&lt;id&gt;/assign/</code>
+		<div class="image-grid">
+			<img src="../images/atualizar-status-pedido.png" alt="Atualizar status do entregador" />
+		</div>
+		Selecione:
+		</p>
+		<ul>
+			<li>nenhum entregador</li>
+			<li>algum entregador cadastrado</li>
+		</ul>
+		<p>Define o responsável pela entrega.</p>
+		<hr />
+		<h2 id="%F0%9F%91%B7%E2%80%8D%E2%99%82%EF%B8%8F-45-%E2%80%93-cadastro-de-entregadores">
+			👷‍♂️ <strong>4.5 – Cadastro de Entregadores</strong>
+		</h2>
+		<p>
+			URL:
+			<code>/dashboard/delivery-person/</code>
+			<img src="../images/entregadores.png" alt="Entregadores" />
+			URL para adicionar:
+			<code>/dashboard/delivery-person/add/</code>
+			<img src="../images/add-entregador.png" alt="Addicionar entregador" />
+		</p>
+		<p>Campos:</p>
+		<ul>
+			<li>nome</li>
+			<li>telefone</li>
+		</ul>
+		<hr />
+		<h1 id="5-guia-do-administrador">
+			<strong>5. GUIA DO ADMINISTRADOR</strong>
+		</h1>
+		<p>
+			Painel administrativo completo.
+			<img src="../images/admin.png" alt="Admin" />
+		</p>
+		<hr />
+		<h1 id="6-guia-do-desenvolvedor">
+			<strong>6. GUIA DO DESENVOLVEDOR</strong>
+		</h1>
+		<h2 id="%F0%9F%9B%A0-61-%E2%80%93-instala%C3%A7%C3%A3o">
+			🛠 <strong>6.1 – Instalação</strong>
+		</h2>
+		<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/eltonmoraes6/restaurant-django-app.git
+<span class="hljs-built_in">cd</span> restaurant-django-app
+</div></code></pre>
+		<p>Crie o ambiente virtual:</p>
+		<pre class="hljs"><code><div>python -m venv venv
+venv\Scripts\activate     <span class="hljs-comment"># Windows</span>
+<span class="hljs-built_in">source</span> venv/bin/activate  <span class="hljs-comment"># Linux/Mac</span>
+</div></code></pre>
+		<p>Instale as dependências:</p>
+		<pre class="hljs"><code><div>pip install -r requirements.txt
+</div></code></pre>
+		<p>Execute as migrações:</p>
+		<pre class="hljs"><code><div>python manage.py makemigrations
+python manage.py migrate
+</div></code></pre>
+		<p>Crie o usuário administrador:</p>
+		<pre class="hljs"><code><div>python manage.py createsuperuser
+</div></code></pre>
+		<p>Inicie o servidor:</p>
+		<pre class="hljs"><code><div>python manage.py runserver
+</div></code></pre>
+		<p>Acesse:</p>
+		<p>App: http://127.0.0.1:8000/</p>
+		<p>Admin: http://127.0.0.1:8000/admin/</p>
+		<hr />
+		<h2 id="%F0%9F%A7%B1-62-%E2%80%93-estrutura-do-projeto">
+			🧱 <strong>6.2 – Estrutura do Projeto</strong>
+		</h2>
+		<pre class="hljs"><code><div>restaurant-django-app/
+│
+├── Base_App/
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── forms.py
+│   ├── templates/
+│   │   ├── cms/
+│   │   ├── categories/
+│   │   ├── delivery/
+│   │   └── admin/
+│   ├── static/
+│
+├── Resturant_Project/
+│   ├── settings.py
+│   ├── urls.py
+│
+├── media/
+├── static/
+├── init_cms.py
+├── requirements.txt
+└── README.md
+</div></code></pre>
+		<hr />
+		<h2 id="%F0%9F%A7%A9-63-%E2%80%93-modelos">
+			🧩 <strong>6.3 – Modelos</strong>
+		</h2>
+		<h3 id="principais">Principais:</h3>
+		<ul>
+			<li>Category – categorias do cardápio</li>
+			<li>Items – produtos</li>
+			<li>Cart – carrinho temporário</li>
+			<li>Order – pedido</li>
+			<li>OrderItem – itens do pedido</li>
+			<li>BookTable – reserva de mesa</li>
+			<li>Feedback – avaliações</li>
+			<li>Delivery – logística da entrega</li>
+			<li>DeliveryPerson – entregadores</li>
+			<li>CMSContent / PageSection – conteúdo dinâmico do site</li>
+		</ul>
+		<hr />
+		<h2 id="%F0%9F%A7%AD-64-%E2%80%93-rotas">
+			🧭 <strong>6.4 – Rotas</strong>
+		</h2>
+		<h3 id="carrinho">Carrinho</h3>
+		<table>
+			<thead>
+				<tr>
+					<th style="text-align: left">URL</th>
+					<th style="text-align: center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align: left"><code>/add-to-cart/</code></td>
+					<td style="text-align: center">add_to_cart</td>
+				</tr>
+				<tr>
+					<td style="text-align: left"><code>/cart/</code></td>
+					<td style="text-align: center">CartPageView</td>
+				</tr>
+				<tr>
+					<td style="text-align: left"><code>/increase/&lt;id&gt;/</code></td>
+					<td style="text-align: center">increase_quantity</td>
+				</tr>
+				<tr>
+					<td style="text-align: left"><code>/decrease/&lt;id&gt;/</code></td>
+					<td style="text-align: center">decrease_quantity</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 id="%F0%9F%9A%9A-log%C3%ADstica--entregas">
+			🚚 Logística / Entregas
+		</h3>
+		<table>
+			<thead>
+				<tr>
+					<th style="text-align: left">URL</th>
+					<th style="text-align: center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/deliveries/</code>
+					</td>
+					<td style="text-align: center">delivery_list</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/delivery/&lt;id&gt;/</code>
+					</td>
+					<td style="text-align: center">delivery_detail</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/delivery/&lt;id&gt;/update/</code>
+					</td>
+					<td style="text-align: center">delivery_update</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/delivery/&lt;id&gt;/assign/</code>
+					</td>
+					<td style="text-align: center">delivery_assign</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/delivery-person/</code>
+					</td>
+					<td style="text-align: center">delivery_person_list</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">
+						<code>/dashboard/delivery-person/add/</code>
+					</td>
+					<td style="text-align: center">delivery_person_create</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3 id="%F0%9F%A7%A9-cms-gerenciamento-de-conte%C3%BAdo">
+			🧩 CMS (Gerenciamento de Conteúdo)
+		</h3>
+		<table>
+			<thead>
+				<tr>
+					<th style="text-align: left">URL</th>
+					<th style="text-align: center">View</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align: left"><code>/cms/</code></td>
+					<td style="text-align: center">Lista de seções</td>
+				</tr>
+				<tr>
+					<td style="text-align: left"><code>/cms/create/</code></td>
+					<td style="text-align: center">Criar nova seção</td>
+				</tr>
+				<tr>
+					<td style="text-align: left"><code>/cms/edit/&lt;id&gt;/</code></td>
+					<td style="text-align: center">Editar conteúdo</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr />
+		<h2 id="%F0%9F%93%9D-65-%E2%80%93-cms-como-funciona">
+			📝 <strong>6.5 – CMS (Como Funciona)</strong>
+		</h2>
+		<p>
+			O CMS permite
+			<strong>editar textos, títulos e imagens do site sem alterar código</strong>.
+		</p>
+		<h3 id="%F0%9F%93%8C-p%C3%A1ginas-suportadas">📌 Páginas suportadas:</h3>
+		<ul>
+			<li>Home</li>
+			<li>About</li>
+			<li>Menu</li>
+			<li>Footer</li>
+			<li>Contact</li>
+		</ul>
+		<p>Cada página pode conter <strong>múltiplas seções</strong>, como:</p>
+		<ul>
+			<li>Hero</li>
+			<li>Texto institucional</li>
+			<li>Rodapé</li>
+			<li>Informações de contato</li>
+		</ul>
+		<hr />
+		<h3 id="%E2%9E%95-criar-conte%C3%BAdo-manualmente-painel">
+			➕ Criar Conteúdo Manualmente (Painel)
+		</h3>
+		<ol>
+			<li>
+				<p>Acesse: <code>/cms/</code></p>
+			</li>
+			<li>
+				<p>Clique em <strong>Adicionar Nova Seção</strong></p>
+			</li>
+			<li>
+				<p>Escolha:</p>
+				<ul>
+					<li>Página (home, about, footer…)</li>
+					<li>Seção (ex: hero, description, footer_about)</li>
+				</ul>
+			</li>
+			<li>
+				<p>Preencha título, conteúdo e imagem</p>
+			</li>
+			<li>
+				<p>Salve</p>
+			</li>
+		</ol>
+		<p>O conteúdo passa a aparecer automaticamente no site.</p>
+		<hr />
+		<h2 id="%E2%9A%99%EF%B8%8F-66-%E2%80%93-inicializa%C3%A7%C3%A3o-autom%C3%A1tica-do-cms-seed">
+			⚙️ <strong>6.6 – Inicialização Automática do CMS (Seed)</strong>
+		</h2>
+		<p>
+			Para criar conteúdo inicial automaticamente, use o script
+			<strong>init_cms.py</strong>.
+		</p>
+		<h3 id="exemplo-de-conte%C3%BAdo-padr%C3%A3o">
+			Exemplo de conteúdo padrão:
+		</h3>
+		<pre class="hljs"><code><div>defaults = [
+    (<span class="hljs-string">"about"</span>, <span class="hljs-string">"title"</span>, <span class="hljs-string">"We Are Feane"</span>),
+    (<span class="hljs-string">"about"</span>, <span class="hljs-string">"description"</span>, <span class="hljs-string">"We began our journey in 1990..."</span>),
+]
+</div></code></pre>
+		<h3 id="executar-o-seed">Executar o seed:</h3>
+		<pre class="hljs"><code><div>python manage.py shell &lt; init_cms.py
+</div></code></pre>
+		<p>
+			✔ Ideal para ambientes novos ✔ Evita banco vazio ✔ Facilita deploy e
+			testes
+		</p>
+		<hr />
+		<h2 id="%F0%9F%8C%90-67-%E2%80%93-api-exemplo">
+			🌐 <strong>6.7 – API (Exemplo)</strong>
+		</h2>
+		<p>Resposta ao adicionar item no carrinho:</p>
+		<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Item adicionado com sucesso"</span>,
+  <span class="hljs-attr">"quantity"</span>: <span class="hljs-number">1</span>
+}
+</div></code></pre>
+		<hr />
+		<h2 id="%F0%9F%A7%AA-68-%E2%80%93-testes">
+			🧪 <strong>6.8 – Testes</strong>
+		</h2>
+		<pre class="hljs"><code><div>python manage.py <span class="hljs-built_in">test</span>
+</div></code></pre>
+		<hr />
+		<h2 id="%F0%9F%90%9E-69-%E2%80%93-debug-comum">
+			🐞 <strong>6.9 – Debug Comum</strong>
+		</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Erro</th>
+					<th>Solução</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>NoReverseMatch</td>
+					<td>Verificar nome da rota</td>
+				</tr>
+				<tr>
+					<td>TemplateDoesNotExist</td>
+					<td>Caminho do template</td>
+				</tr>
+				<tr>
+					<td>ImportError</td>
+					<td>Caminho incorreto</td>
+				</tr>
+				<tr>
+					<td>404</td>
+					<td>URL não registrada</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr />
+		<h2 id="%F0%9F%9A%80-610-%E2%80%93-deploy-produ%C3%A7%C3%A3o">
+			🚀 <strong>6.10 – Deploy (Produção)</strong>
+		</h2>
+		<pre class="hljs"><code><div>pip install gunicorn whitenoise
+</div></code></pre>
+		<p>Adicione:</p>
+		<pre class="hljs"><code><div><span class="hljs-string">"whitenoise.middleware.WhiteNoiseMiddleware"</span>,
+</div></code></pre>
+		<p>Execute:</p>
+		<pre class="hljs"><code><div>gunicorn Resturant_Project.wsgi
+</div></code></pre>
+		<h1 id="7-imagens"><strong>7. IMAGENS</strong></h1>
+		<div class="image-grid">
+			<img src="../images/inicio-1.png" alt="alt text" />
+			<img src="../images/inicio-2.png" alt="alt text" />
+			<img src="../images/inicio-3.png" alt="alt text" />
+			<img src="../images/inicio-4.png" alt="alt text" />
+			<img src="../images/menu.png" alt="navigation_menu" />
+			<img src="../images/login.png" alt="alt text" />
+			<img src="../images/register.png" alt="alt text" />
+			<img src="../images/menu-2.png" alt="navigation_menu" />
+			<img src="../images/menu-3.png" alt="navigation_menu" />
+			<img src="../images/cart-popup.png" alt="alt text" />
+			<img src="../images/cart.png" alt="alt text" />
+			<img src="../images/checkout.png" alt="alt text" />
+			<img src="../images/order_summary.png" alt="alt text" />
+			<img src="../images/my_orders_page.png" alt="alt text" />
+			<img src="../images/meus-pedidos-lista.png" alt="alt text" />
+			<img src="../images/nosso-cardapio.png" alt="alt text" />
+			<img src="../images/sobre.png" alt="alt text" />
+			<img src="../images/reservar-mesa.png" alt="alt text" />
+			<img src="../images/table_booking.png" alt="alt text" />
+			<img src="../images/feedback.png" alt="alt text" />
+			<img src="../images/feedback_form.png" alt="alt text" />
+			<img src="../images/menu-3.png" alt="alt text" />
+			<img src="../images/profile.png" alt="alt text" />
+			<img src="../images/my_orders_page.png" alt="alt text" />
+			<img src="../images/admin_dashboard.png" alt="alt text" />
+			<img src="../images/admin_dashboard-02.png" alt="alt text" />
+			<img src="../images/cms.png" alt="alt text" />
+			<img src="../images/produtos-lista.png" alt="alt text" />
+			<img src="../images/add-produto.png" alt="alt text" />
+			<img src="../images/add-categoria.png" alt="alt text" />
+			<img src="../images/ger-pedidos.png" alt="alt text" />
+			<img src="../images/ger-entrega.png" alt="alt text" />
+			<img src="../images/entregadores.png" alt="alt text" />
+			<img src="../images/add-entregador.png" alt="alt text" />
+			<img src="../images/admin.png" alt="alt text" />
+		</div>
+		<h1 id="8-conclus%C3%A3o"><strong>8. CONCLUSÃO</strong></h1>
+		<p>
+			O Sabor IFS foi desenvolvido com o objetivo de oferecer uma solução
+			completa e integrada para a gestão de restaurantes, unindo praticidade,
+			organização e eficiência em um único sistema. Ao longo deste manual,
+			foram apresentados os principais recursos da aplicação, contemplando as
+			necessidades de usuários, administradores e desenvolvedores, de forma
+			clara e estruturada.
+		</p>
+		<p>
+			Para o usuário final, a aplicação disponibiliza funcionalidades
+			essenciais como visualização do cardápio, gerenciamento do carrinho,
+			finalização de pedidos, acompanhamento do histórico, envio de feedbacks
+			e realização de reservas de mesas, proporcionando uma experiência
+			intuitiva e acessível. Já para o administrador, o sistema oferece um
+			painel robusto para controle de produtos, categorias, pedidos,
+			avaliações, reservas e logística, incluindo o gerenciamento de entregas
+			e entregadores, garantindo maior organização e controle operacional.
+		</p>
+		<p>
+			Do ponto de vista técnico, o projeto foi construído utilizando o
+			framework Django 5.2, seguindo boas práticas de desenvolvimento, com uma
+			arquitetura modular, controle de acesso por níveis de permissão e
+			integração de um CMS, que permite a atualização dinâmica de conteúdos
+			sem a necessidade de alterações diretas no código. O guia do
+			desenvolvedor fornece orientações completas para instalação, manutenção,
+			testes e deploy, facilitando a continuidade e evolução do sistema.
+		</p>
+		<p>
+			Dessa forma, o Sabor IFS apresenta-se como uma aplicação estável,
+			escalável e preparada para uso em ambientes reais, além de servir como
+			uma base sólida para futuras melhorias e expansões. Este manual tem como
+			finalidade apoiar o uso correto da plataforma e contribuir para a sua
+			manutenção e desenvolvimento contínuo.
+		</p>
+	</main>
+</body>
+
+</html>
