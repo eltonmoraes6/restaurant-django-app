@@ -518,6 +518,9 @@ O CMS permite **editar textos, títulos e imagens do site sem alterar código**.
 
 ### 📌 Páginas suportadas:
 
+![alt text](images/cms.png)
+![alt text](images/cms-2.png)
+
 - Home
 - About
 - Menu
@@ -660,6 +663,7 @@ gunicorn Resturant_Project.wsgi
 ![alt text](images/admin_dashboard-02.png)
 
 ![alt text](images/cms.png)
+![alt text](images/cms-2.png)
 ![alt text](images/produtos-lista.png)
 ![alt text](images/add-produto.png)
 ![alt text](images/add-categoria.png)

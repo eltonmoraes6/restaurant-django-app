@@ -11,7 +11,8 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             UserProfileView, add_to_cart,
                             assign_delivery_person, category_create,
                             category_list, cms_create, cms_edit, cms_list,
-                            decrease_quantity, delivery_detail, delivery_list,
+                            cms_products_bulk, decrease_quantity,
+                            delivery_detail, delivery_list,
                             delivery_person_create, delivery_person_list,
                             delivery_update, get_cart_items, increase_quantity,
                             items_create, items_edit, items_list, order_list)
@@ -36,6 +37,7 @@ urlpatterns = [
     path("cms/", cms_list, name="cms_list"),
     path("cms/create/", cms_create, name="cms_create"),
     path("cms/edit/<int:pk>/", cms_edit, name="cms_edit"),
+    path("cms/products/", cms_products_bulk, name="cms_products_bulk"),
 
     # Auth
     path('login/', LoginView.as_view(), name='login'),

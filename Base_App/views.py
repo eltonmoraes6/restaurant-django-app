@@ -361,7 +361,7 @@ def cms_create(request):
     else:
         form = PageSectionForm()
 
-    return render(request, "cms_form.html", {"form": form, "title": "Create New CMS Section"})
+    return render(request, "cms_form.html", {"form": form, "title": "Criar nova seção do CMS"})
 
 
 @login_required
@@ -378,6 +378,36 @@ def cms_edit(request, pk):
         form = PageSectionForm(instance=section)
 
     return render(request, "cms_form.html", {"form": form, "title": "Edit CMS Section"})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def cms_products_bulk(request):
+    items = Items.objects.all().order_by("id")
+    categories = Category.objects.all()
+
+    if request.method == "POST":
+        for item in items:
+            prefix = f"item_{item.id}_"
+
+            item.Item_name = request.POST.get(prefix + "name")
+            item.Price = request.POST.get(prefix + "price")
+            item.Category_id = request.POST.get(prefix + "category")
+
+            image_field = prefix + "image"
+            if image_field in request.FILES:
+                item.Image = request.FILES[image_field]
+
+            item.save()
+
+        messages.success(request, "Produtos atualizados com sucesso!")
+        return redirect("cms_products_bulk")
+
+    return render(request, "products_bulk.html", {
+        "items": items,
+        "categories": categories,
+        "form": ItemsForm(),  
+        "title": "Edição Rápida de Produtos"
+    })
 
 # ===========================================================
 #New Category Management Views
@@ -445,7 +475,7 @@ def items_edit(request, pk):
     else:
         form = ItemsForm(instance=item)
 
-    return render(request, "items_form.html", {"form": form, "title": "Edit Product"})
+    return render(request, "items_form.html", {"form": form, "title": "Editar Produto"})
 
 
 # ============================================================

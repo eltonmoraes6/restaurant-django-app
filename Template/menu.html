@@ -1,14 +1,11 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 {% block class %}class="sub_page"{% endblock class %}
-{% block menu_status %}active{% endblock menu_status %}
-{% block hero %}{% endblock hero %}
-{% load static %}
-
+{% block menu_status %}active{% endblock menu_status %} 
+{% block hero %}{% endblock hero %} {% load static %} 
 {% block main %}
 
 <section class="food_section layout_padding-bottom">
   <div class="container">
-
     <div class="heading_container heading_center mt-4">
       <h2>Nosso Cardápio</h2>
     </div>
@@ -22,13 +19,12 @@
 
     <div class="filters-content">
       <div class="row grid">
-
         {% for j in items %}
         <div class="col-sm-6 col-lg-4 all {{j.Category}}">
           <div class="box">
             <div>
               <div class="img-box">
-                <img src="/media/{{j.Image}}" alt="{{j.Image}}">
+                <img src="/media/{{j.Image}}" alt="{{j.Image}}" />
               </div>
 
               <div class="detail-box">
@@ -38,62 +34,78 @@
                 <div class="options">
                   <h6>R${{j.Price}}</h6>
 
-                  <button class="btn btn-success add-to-cart" data-item-id="{{j.id}}"
-                    data-require-login="{{ user.is_authenticated }}">
+                  <button
+                    class="btn btn-success add-to-cart"
+                    data-item-id="{{j.id}}"
+                    data-require-login="{{ user.is_authenticated }}"
+                  >
                     Adicionar ao Carrinho
                   </button>
-
                 </div>
               </div>
-
             </div>
           </div>
         </div>
         {% endfor %}
-
       </div>
     </div>
 
     <div class="btn-box">
       <a href="">Ver Mais</a>
     </div>
-
   </div>
 </section>
 
 <script>
-  document.querySelectorAll('.add-to-cart').forEach(button => {
+  document.querySelectorAll('.add-to-cart').forEach((button) => {
     button.addEventListener('click', function () {
+      const isAuthenticated =
+        this.getAttribute('data-require-login') === 'True';
+      const itemId = this.getAttribute('data-item-id');
 
-      const requiresLogin = this.getAttribute('data-require-login');
-
-      if (requiresLogin === "False") {
-        alert("Você precisa estar logado para adicionar itens ao carrinho.");
-        window.location.href = "{% url 'login' %}";
+      if (!isAuthenticated) {
+        showFeedbackModal(
+          'Login necessário',
+          'Você precisa estar logado para adicionar itens ao carrinho.',
+          true,
+        );
         return;
       }
 
-      const itemId = this.getAttribute('data-item-id');
-
-      fetch('/add-to-cart/', {
+      fetch("{% url 'add_to_cart' %}", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRFTOKEN': '{{ csrf_token }}'
+          'X-CSRFToken': '{{ csrf_token }}',
         },
-        body: `item_id=${itemId}`
+        body: `item_id=${itemId}`,
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (data.success) {
             const badge = document.getElementById('cart-count');
             if (badge) badge.innerText = data.cart_count;
-            alert(data.message);
-          } else {
-            alert(data.message);
-          }
-        });
 
+            showFeedbackModal(
+              'Item adicionado!',
+              'O produto foi adicionado ao seu carrinho com sucesso.',
+              false,
+            );
+          } else {
+            showFeedbackModal(
+              'Erro',
+              data.message || 'Não foi possível adicionar o item.',
+              true,
+            );
+          }
+        })
+        .catch(() => {
+          showFeedbackModal(
+            'Erro inesperado',
+            'Tente novamente em alguns instantes.',
+            true,
+          );
+        });
     });
   });
 </script>

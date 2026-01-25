@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block hero %}{% endblock %}
+
+{% block main %}
+
+<div class="container layout_padding">
+
+  <!-- CABEÇALHO -->
+  <div class="heading_container mb-3">
+    <h2>{{ title }}</h2>
+    <p class="text-muted">Visualize e edite vários produtos rapidamente</p>
+  </div>
+
+  <!-- BOTÃO ADICIONAR PRODUTO -->
+  <button
+    class="btn btn-outline-success mb-4"
+    data-bs-toggle="modal"
+    data-bs-target="#addProductModal"
+  >
+    ➕ Adicionar Produto
+  </button>
+
+  <!-- FORM BULK -->
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th style="width:160px">Imagem</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Categoria</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.id }}</td>
+
+          <!-- IMAGEM + PREVIEW -->
+          <td>
+            <img
+              id="preview_{{ item.id }}"
+              {% if item.Image %}
+              src="{{ item.Image.url }}"
+              {% endif %}
+              class="img-thumbnail mb-2"
+              style="max-width:120px; {% if not item.Image %}display:none{% endif %}"
+            />
+
+            <input
+              type="file"
+              class="form-control form-control-sm"
+              name="item_{{ item.id }}_image"
+              accept="image/*"
+              onchange="previewBulkImage(this, {{ item.id }})"
+            />
+          </td>
+
+          <!-- NOME -->
+          <td>
+            <input
+              type="text"
+              class="form-control"
+              name="item_{{ item.id }}_name"
+              value="{{ item.Item_name }}"
+            />
+          </td>
+
+          <!-- PREÇO -->
+          <td>
+            <input
+              type="number"
+              step="0.01"
+              class="form-control"
+              name="item_{{ item.id }}_price"
+              value="{{ item.Price }}"
+            />
+          </td>
+
+          <!-- CATEGORIA -->
+          <td>
+            <select class="form-select" name="item_{{ item.id }}_category">
+              {% for cat in categories %}
+              <option
+                value="{{ cat.id }}"
+                {% if item.Category_id == cat.id %}selected{% endif %}
+              >
+                {{ cat.name }}
+              </option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <button class="btn btn-success mt-3">
+      💾 Salvar Alterações
+    </button>
+  </form>
+</div>
+
+<!-- MODAL ADICIONAR PRODUTO -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <form method="post" enctype="multipart/form-data" action="{% url 'item_add' %}">
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <h5 class="modal-title">Adicionar Produto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label fw-semibold">{{ field.label }}</label>
+            {{ field }}
+
+            {% if field.name == "Image" %}
+            <img
+              id="modalPreview"
+              class="img-thumbnail mt-2"
+              style="max-height:150px; display:none"
+            >
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success">Salvar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+function previewBulkImage(input, itemId) {
+  const preview = document.getElementById("preview_" + itemId);
+  const file = input.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    preview.src = e.target.result;
+    preview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+function previewImage(input) {
+  const preview = document.getElementById("modalPreview");
+  const file = input.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    preview.src = e.target.result;
+    preview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+</script>
+
+{% endblock %}

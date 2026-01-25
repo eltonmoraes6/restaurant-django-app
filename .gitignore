@@ -7,3 +7,9 @@ __pycache__/
 media/
 *.log
 .DS_Store
+
+
+# Dependency directories
+
+node_modules/
+jspm_packages/

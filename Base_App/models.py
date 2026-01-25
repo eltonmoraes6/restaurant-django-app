@@ -32,12 +32,18 @@ class Items(models.Model):
 
     # 🔥 AQUI ESTÁ A CORREÇÃO
     Category = models.ForeignKey(
-        Category,                 # ← agora usa a categoria certa
+        Category,              
         on_delete=models.CASCADE,
         related_name="items"
     )
 
-    Image = models.ImageField(upload_to='items/')
+    Image = models.ImageField(
+        upload_to="items/",
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.Item_name

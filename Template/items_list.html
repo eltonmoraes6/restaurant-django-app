@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block hero %}{% endblock hero %}
+{% extends "base.html" %} 
+{% block hero %}{% endblock hero %} 
 {% block main %}
 <div class="container mt-4">
     <div class="heading_container">
@@ -22,7 +22,7 @@
             {% for item in items %}
             <tr>
                 <td>{{ item.id }}</td>
-                <td><img src="{{ item.image.url }}" width="60"></td>
+                <td><img src="{{ item.image.url }}" width="60" /></td>
                 <td>{{ item.Item_name }}</td>
                 <td>R${{ item.Price }}</td>
                 <td>
