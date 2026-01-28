@@ -28,6 +28,18 @@
                 <td>
                     <a href="{% url 'item_edit' item.id %}" class="btn btn-sm btn-warning">Editar</a>
                 </td>
+                <td>
+    <a href="{% url 'item_edit' item.id %}" class="btn btn-sm btn-warning">
+        Editar
+    </a>
+
+    <a href="{% url 'item_delete' item.id %}"
+       class="btn btn-sm btn-danger"
+       onclick="return confirm('Tem certeza que deseja remover este produto?');">
+        Remover
+    </a>
+</td>
+
             </tr>
             {% endfor %}
         </tbody>

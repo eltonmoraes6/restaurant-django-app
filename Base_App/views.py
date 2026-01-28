@@ -63,6 +63,15 @@ def get_cart_items(request):
 
     return JsonResponse({'items': items})
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def items_delete(request, pk):
+    item = get_object_or_404(Items, pk=pk)
+    item.delete()
+    messages.success(request, "Produto removido com sucesso!")
+    return redirect("items_list")
+
+
 
 # ============================================================
 # LOGIN / LOGOUT / SIGNUP

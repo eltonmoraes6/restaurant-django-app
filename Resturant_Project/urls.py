@@ -15,7 +15,7 @@ from Base_App.views import (AboutView, AdminDashboardView, BookTableView,
                             delivery_detail, delivery_list,
                             delivery_person_create, delivery_person_list,
                             delivery_update, get_cart_items, increase_quantity,
-                            items_create, items_edit, items_list, order_list)
+                            items_create, items_edit,items_delete, items_list, order_list)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,6 +23,8 @@ urlpatterns = [
     # CUSTOM ADMIN PANEL
     path("dashboard/items/", items_list, name="items_list"),
     path("dashboard/items/add/", items_create, name="item_add"),
+    path("items/delete/<int:pk>/", items_delete, name="item_delete"),
+
     path("dashboard/items/edit/<int:pk>/", items_edit, name="item_edit"),
 
     path("dashboard/orders/", order_list, name="order_list"),
